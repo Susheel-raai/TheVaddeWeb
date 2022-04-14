@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import {FilterfoodComponent } from './side-menu/filterfood/filterfood.component';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +9,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  panelOpenState = false;
-
-  onFilterFoodItems(value:string){
-    debugger;
-    localStorage.setItem('filterItem',value);
-  }
 }
