@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule }from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import{ HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,14 +11,24 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCardModule} from '@angular/material/card';
+import {HomeComponent} from './home/home.component';
+import { RatingModule, RatingConfig } from 'ngx-bootstrap/rating';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { FilterfoodComponent } from './filterfood/filterfood.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FoodItemsComponent
+    FoodItemsComponent,
+    HomeComponent,
+    FilterfoodComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -25,7 +36,11 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSidenavModule,
     MatButtonModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatExpansionModule,
+    MatCardModule,
+    MatTooltipModule,
+    RatingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

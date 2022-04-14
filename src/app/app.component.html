@@ -1,3 +1,80 @@
-<div>
-  <app-food-items></app-food-items>
-</div>
+<!--nav class defined-->
+<nav class="navbar navbar-expand-lg navbar-light bg-class card-header">
+  <button
+  mat-icon-button
+  *ngIf="sidenav.mode === 'over'"
+  (click)="sidenav.toggle()"
+>
+  <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+  <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+</button>
+  <a href="home">
+    <img src="./../../assets/images/Logo.jpg" style="height: 100px;" class="rounded-circle">
+ </a>
+  <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: center;">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" style="color: white;" href="home">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color: white;" href="foodItems">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link bg-color" style="color: white;" href="#">Contact us</a>
+      </li>
+    </ul>
+  </div>
+  <div>
+      <div class="collapse navbar-collapse">
+        <div class="input-group" style="margin-right: 8px;">
+          <input class="form-control border rounded-pill" type="search" value="search">
+          <button class="btn btn-outline-secondary bg-white border rounded-pill ms-n5" type="button">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+        <span><img src="../../assets/images/Logo-bg.png" style="justify-content: right; height: 60px;" class="shadow-lg rounded rounded-circle"></span>
+      </div>
+  </div>
+</nav>
+
+<mat-sidenav-container>
+<mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header class="menu-button">
+      <span>Menu</span>
+    </mat-expansion-panel-header>
+    <div class="matSidenav">
+      <button mat-button class="menu-button" [routerLink]="['filter']" (click)="onFilterFoodItems('Breakfast')">
+        <span>Breakfast</span>
+      </button>
+      <button mat-button class="menu-button" [routerLink]="['filter']" (click)="onFilterFoodItems('Lunch')">
+        <span>Lunch</span>
+      </button>
+      <button mat-button class="menu-button" [routerLink]="['filter']" (click)="onFilterFoodItems('Dinner')">
+        <span>Dinner</span>
+      </button>
+    </div>
+  </mat-expansion-panel>
+  <mat-divider></mat-divider>
+  <button mat-button class="menu-button">
+    <mat-icon>settings</mat-icon>
+    <span>Settings</span>
+  </button>
+
+  <mat-divider></mat-divider>
+
+  <button mat-button class="menu-button" routerLink="/help">
+    <mat-icon>help</mat-icon>
+    <span>Help</span>
+  </button>
+</mat-sidenav>
+<mat-sidenav-content>
+  <div class="content mat-elevation-z8">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+

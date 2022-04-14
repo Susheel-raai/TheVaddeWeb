@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TheVadde.Web';
+
+  panelOpenState = false;
+
+  onFilterFoodItems(value:string){
+    debugger;
+    localStorage.setItem('filterItem',value);
+  }
 }
