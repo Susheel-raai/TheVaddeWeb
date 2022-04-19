@@ -1,0 +1,15 @@
+label{
+    color: black;
+}
+
+.border {
+    background-color: white;
+    opacity: 0.5;
+    background-image: url('../../../assets/images/login image.png');
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.border:hover{
+    opacity: 1.0;
+}

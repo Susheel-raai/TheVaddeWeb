@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-
+import { Observable, Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
-  private ItemsList = new BehaviorSubject<any>({});
-  private FilterItems = new BehaviorSubject<string>('');
-  foodItemsList = this.ItemsList.asObservable();
+  private itemFilter = new Subject<any>();
+
+  filteredItem = this.itemFilter.asObservable();
   constructor() { }
 
-  setList(ItemsList: any) {
-    this.ItemsList.next(ItemsList);
+  setFilter(itemFilter: any) {
+    this.itemFilter.next(itemFilter);
   }
-
-  setgFilter(FilterItems: string) {
-    this.ItemsList.next(FilterItems);
+  
+  getFilter(): Observable<any> {
+    return this.itemFilter.asObservable();
   }
 }

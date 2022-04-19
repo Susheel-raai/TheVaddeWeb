@@ -12,20 +12,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCardModule} from '@angular/material/card';
-import {HomeComponent} from './side-menu/home/home.component';
-import { RatingModule, RatingConfig } from 'ngx-bootstrap/rating';
+import { RatingModule } from 'ngx-bootstrap/rating';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { FilterfoodComponent } from './side-menu/filterfood/filterfood.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import {SideMenuModule} from './side-menu/side-menu.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    FilterfoodComponent,
-    SideMenuComponent
+    SideMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +31,7 @@ import {SideMenuModule} from './side-menu/side-menu.module';
     AppRoutingModule,
     HttpClientModule,
     SideMenuModule,
+    Ng2SearchPipeModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,

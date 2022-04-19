@@ -2,8 +2,57 @@ mat-card {
     background-color: white;
 }
 
+.example-card {
+    max-width: 220px;
+    margin: 20px;
+  }
+
+.image-format{
+   margin: 50px;
+   height: 150px;
+   width: 200px;
+} 
+
+.small-headings{
+    color: coral;
+    font-weight: bold;
+}
+
+.main-headings{
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: justify;
+}
+
+.second-headings{
+    color: black;
+    font-family: Arial, Helvetica, Monospace;
+    text-align: justify;
+}
 
 
-  
-  
-  
+.Center {
+    margin-top: 50px;
+    margin-left: 250px;
+}
+
+.image{
+    opacity: 0.5;
+    filter: alpha(opacity=100);
+}
+
+.card-overlay {
+    background: rgba(0, 0, 0, 0.737);
+    height: 100vh;
+    min-height: 350px;
+  }
+
+  .carousel-item {
+    height: 100vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }

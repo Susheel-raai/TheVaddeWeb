@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {FilterfoodComponent} from './filterfood/filterfood.component';
+import {SharedService  } from './../shared.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -10,9 +11,8 @@ import {FilterfoodComponent} from './filterfood/filterfood.component';
 export class SideMenuComponent implements OnInit {
 
   panelOpenState = false;
-  filterItem!: string;
-
-  constructor(private router: Router) { }
+  itemFilter!:string;
+  constructor(private router: Router, private sharedservice: SharedService) { }
 
   ngOnInit(): void {
   }
@@ -20,10 +20,17 @@ export class SideMenuComponent implements OnInit {
   onFilterFoodItems(value:string){
     debugger;
     localStorage.setItem('filterItem',value);
-    let filterItemObj = new FilterfoodComponent(this.router);
+    let filterItemObj = new FilterfoodComponent(this.router, this.sharedservice);
     this.router.navigate(['/menu']);
     if(this.router.url=='/menu'){
       filterItemObj.reloadCurrentRoute();
     }
+  }
+
+  modelChangeFn(value: any)
+  {
+    debugger;
+    this.itemFilter=value;
+    this.sharedservice.setFilter(this.itemFilter);
   }
 }
