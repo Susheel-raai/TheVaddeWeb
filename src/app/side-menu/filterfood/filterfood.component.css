@@ -1,3 +1,7 @@
 mat-card {
     background-color: white;
 }
+
+.pointer {
+    cursor: pointer;
+}

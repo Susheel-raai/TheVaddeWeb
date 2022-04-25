@@ -1,5 +1,41 @@
-<div class="content row">
+<div class="content">
+  <div class=" row">
     <mat-card class="example-card" *ngFor="let items of filteredItemsList | filter: itemfiltered">
+      <div>
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+        </mat-card-header>
+        <img mat-card-image src="../../assets/images/{{items.itemImage}}" style="height: 200px;"
+          matTooltip="{{items.itemDescription}}">
+        <mat-card-content>
+          <div class="row">
+            <h2 class="col-md-6" style="justify-content: left; color: black;">{{items.itemName}}</h2>
+            <h2 class="col-md-2" style="justify-content: right; color: black; margin-left:100px"><i
+                class='fas fa-pound-sign'>£{{items.itemPrice | number:'1.2-2'}}</i></h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+              fxLayoutAlign="start center">
+              <rating [(ngModel)]="items.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group" style="justify-content: right;">
+                <button (click)="removeItemCount(items.itemId)"
+                  style="border: #1A6F76;border-radius: 5px; margin-bottom:10px"><i style="color: #1A6F76;"
+                    class="fa fa-minus" aria-hidden="true"></i></button>
+                <p style="color: black; width: 2em; text-align: center;">{{items.itemQty}}</p>
+                <button (click)="addItemCount(items.itemId)"
+                  style="border: #1A6F76; border-radius: 5px; margin-bottom:10px"><i style="color: #1A6F76;"
+                    class="fa fa-plus" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngIf="filterItems=='Breakfast'" class=" row">
+    <mat-card class="example-card" *ngFor="let items of breakItemsList | filter: itemfiltered">
       <div matTooltip="{{items.itemDescription}}">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
@@ -8,14 +44,90 @@
         <mat-card-content>
           <div class="row">
             <h2 class="col-md-6" style="justify-content: left; color: black;">{{items.itemName}}</h2>
-            <h2 class="col-md-2" style="justify-content: right; color: black; margin-left:100px"><i class='fas fa-pound-sign'>£{{items.itemPrice | number:'1.2-2'}}</i></h2>
+            <h2 class="col-md-2" style="justify-content: right; color: black; margin-left:100px"><i
+                class='fas fa-pound-sign'>£{{items.itemPrice | number:'1.2-2'}}</i></h2>
           </div>
-          <div class="star-rating-container star-rating-animation" fxLayout="row" fxLayoutAlign="start center" >
-            <div>
-                <rating [(ngModel)]="items.itemReview" [max]="5"  [readonly]="true" class="star-gold star"></rating>
+          <div class="row">
+            <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+              fxLayoutAlign="start center">
+              <rating [(ngModel)]="items.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
             </div>
-        </div>
+            <div class="col-md-6">
+              <div class="input-group" style="justify-content: right;">
+                <i style="color: #1A6F76; align-self: center;" class="fa fa-minus-square" aria-hidden="true"
+                  (click)="removeItemCount(items.itemId)"></i>
+                <p style="color: black; width: 1.5em; text-align: center;margin-top: 10px;">{{items.itemQty}}</p>
+                <i style="color: #1A6F76; align-self: center;" class="fa fa-plus-square" aria-hidden="true"
+                  (click)="addItemCount(items.itemId)"></i>
+              </div>
+            </div>
+          </div>
         </mat-card-content>
       </div>
     </mat-card>
   </div>
+  <div *ngIf="filterItems=='Lunch'" class=" row">
+    <mat-card class="example-card" *ngFor="let items of lunchItemsList | filter: itemfiltered">
+      <div matTooltip="{{items.itemDescription}}">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+        </mat-card-header>
+        <img mat-card-image src="../../assets/images/{{items.itemImage}}" style="height: 200px;">
+        <mat-card-content>
+          <div class="row">
+            <h2 class="col-md-6" style="justify-content: left; color: black;">{{items.itemName}}</h2>
+            <h2 class="col-md-2" style="justify-content: right; color: black; margin-left:100px"><i
+                class='fas fa-pound-sign'>£{{items.itemPrice | number:'1.2-2'}}</i></h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+              fxLayoutAlign="start center">
+              <rating [(ngModel)]="items.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group" style="justify-content: right;">
+                <i style="color: #1A6F76; align-self: center;" class="fa fa-minus-square" aria-hidden="true"
+                  (click)="removeItemCount(items.itemId)"></i>
+                <p style="color: black; width: 1.5em; text-align: center;margin-top: 10px;">{{items.itemQty}}</p>
+                <i style="color: #1A6F76; align-self: center;" class="fa fa-plus-square" aria-hidden="true"
+                  (click)="addItemCount(items.itemId)"></i>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngIf="filterItems=='Dinner'" class=" row">
+    <mat-card class="example-card" *ngFor="let items of dinnerItemsList | filter: itemfiltered">
+      <div matTooltip="{{items.itemDescription}}">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+        </mat-card-header>
+        <img mat-card-image src="../../assets/images/{{items.itemImage}}" style="height: 200px;">
+        <mat-card-content>
+          <div class="row">
+            <h2 class="col-md-6" style="justify-content: left; color: black;">{{items.itemName}}</h2>
+            <h2 class="col-md-2" style="justify-content: right; color: black; margin-left:100px"><i
+                class='fas fa-pound-sign'>£{{items.itemPrice | number:'1.2-2'}}</i></h2>
+          </div>
+          <div class="row">
+            <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+              fxLayoutAlign="start center">
+              <rating [(ngModel)]="items.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group" style="justify-content: right;">
+                <i style="color: #1A6F76; align-self: center;" class="fa fa-minus-square" aria-hidden="true"
+                  (click)="removeItemCount(items.itemId)"></i>
+                <p style="color: black; width: 1.5em; text-align: center;margin-top: 10px;">{{items.itemQty}}</p>
+                <i style="color: #1A6F76; align-self: center;" class="fa fa-plus-square" aria-hidden="true"
+                  (click)="addItemCount(items.itemId)"></i>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+</div>

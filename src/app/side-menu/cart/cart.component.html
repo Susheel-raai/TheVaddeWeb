@@ -1,0 +1,108 @@
+<div class="content">
+  <div class="col-md-9">
+    <table class="table table1 border center shadow">
+      <tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
+        <th class="tbl2">Item Image</th>
+        <th></th>
+        <th class="tbl2">Item Name</th>
+        <th class="tbl2">Price</th>
+        <th class="tbl2">Quantity</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let item of selectedItems">
+        <td class="tbl2">
+          <img src="../../../assets/images/{{item.itemImage}}" style="width:60px;height:60px; border-radius: 50%;">
+        </td>
+        <td>
+          <div class="row">
+            <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+              fxLayoutAlign="start center">
+              <rating [(ngModel)]="item.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
+            </div>
+          </div>
+        </td>
+        <td class="tbl2">{{item.itemName}}</td>
+        <td class="tbl2">£{{item.itemPrice}}</td>
+        <td class="tbl2">{{item.itemQty}}</td>
+        <td class="tbl2">£{{item.itemQty * item.itemPrice}}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td *ngIf="selectedItems!=null"></td>
+        <td *ngIf="selectedItems==null" style="color: black;"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart is Empty</td>
+        <td></td>
+        <td><i class="fa fa-credit-card-alt" aria-hidden="true"></i>Total Payment</td>
+        <td>£{{total}}</td>
+      </tr>
+    </table>
+    <br>
+    <div class="payment-center">
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+              <div style="margin-left:1em">Payment</div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form [formGroup]="paymentForm" (ngSubmit)="onPayment()">
+            <table class="table table2">
+              <tr>
+                <td><i class="fa fa-credit-card" aria-hidden="true"></i><label class="form-label">Card Number</label>
+                </td>
+                <td><input type="text" formControlName="cardNumber" class="form-control"
+                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}">
+                  <div *ngIf="pf['cardNumber'].errors && pf['cardNumber'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['cardNumber'].errors['required']">Card Number is required</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-calendar-o" aria-hidden="true"></i><label class="form-label">Order Date</label>
+                </td>
+                <td><input type="date" formControlName="orderDate" class="form-control"
+                    [ngClass]="{'is-invalid': pf['orderDate'].touched && pf['orderDate'].errors}">
+                  <div *ngIf="pf['orderDate'].errors && pf['orderDate'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['orderDate'].errors['required']">Expiry Date is required</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-calendar-o" aria-hidden="true"></i><label class="form-label">Expiry Date</label>
+                </td>
+                <td><input type="date" formControlName="expiryDate" class="form-control"
+                    [ngClass]="{'is-invalid': pf['expiryDate'].touched && pf['expiryDate'].errors}">
+                  <div *ngIf="pf['expiryDate'].errors && pf['expiryDate'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['expiryDate'].errors['required']">Expiry Date is required</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><label class="form-label">CVV</label></td>
+                <td><input type="text" formControlName="cvv" class="form-control"
+                    [ngClass]="{'is-invalid': pf['cvv'].touched && pf['cvv'].errors}">
+                  <div *ngIf="pf['cvv'].errors && pf['cvv'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['cvv'].errors['required']">CVV is required</div>
+                  </div>
+                </td>
+                <td><button style="border: 0ch;" (click)="cancel()"><i class="fa fa-times"
+                      aria-hidden="true"></i></button></td>
+                <td><button style="border: 0ch;" type="submit" [disabled]="!paymentForm.valid"><i class="fa fa-check"
+                      aria-hidden="true"></i></button></td>
+              </tr>
+            </table>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>

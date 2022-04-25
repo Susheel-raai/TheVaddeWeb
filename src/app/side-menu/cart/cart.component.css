@@ -1,0 +1,49 @@
+.center {
+    margin-left: 18%;
+    margin-top: 50px;
+}
+
+.payment-center {
+    margin-left: 30%;
+    margin-top: 50px;
+}
+
+table.table1 th,
+table.table1 td {
+    height: 60px;
+    text-align: center;
+}
+
+table.table1 td {
+    background-color: white;
+}
+
+img:hover {
+    -ms-transform: scale(5.0);
+    /* IE 9 */
+    -webkit-transform: scale(5.0);
+    /* Safari 3-8 */
+    transform: scale(5.0);
+}
+
+mat-expansion-panel {
+    background-color: white;
+}
+
+mat-panel-title {
+    color: black;
+}
+
+mat-expansion-panel-header {
+    height: 65px;
+}
+
+mat-panel-title:hover {
+    color: #1A6F76;
+}
+
+
+table.table2 td {
+    padding: 15px;
+    text-align: left;
+}

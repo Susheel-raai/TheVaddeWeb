@@ -1,15 +1,72 @@
-label{
+label {
     color: black;
 }
 
-.border {
+.loginborder {
     background-color: white;
     opacity: 0.5;
     background-image: url('../../../assets/images/login image.png');
     padding: 20px;
     border-radius: 5px;
+    margin-top: 150px;
 }
 
-.border:hover{
+.registerborder {
+    background-color: white;
+    opacity: 0.5;
+    background-image: url('../../../assets/images/login image.png');
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 40px;
+}
+
+.loginborder:hover {
     opacity: 1.0;
+}
+
+.registerborder:hover {
+    opacity: 1.0;
+}
+
+table.table1 td {
+    padding: 15px;
+    text-align: left;
+}
+
+table.table1 tr:hover {
+    background-color: #f0f4f5;
+}
+
+.signout {
+    position: fixed;
+    margin-right: 0px;
+    left: 50%;
+    top: 22%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 60%;
+    z-index: 10;
+}
+
+
+mat-panel-title {
+    color: black;
+}
+
+mat-expansion-panel {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+mat-expansion-panel-header{
+    height: 65px;
+}
+
+mat-panel-title:hover{
+    color: #1A6F76;
+ }
+
+ table.table2 th,
+table.table2 td {
+    height: 50px;
+    text-align: center;
 }

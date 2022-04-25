@@ -1,84 +1,260 @@
 <div class="content">
-<div class="col-md-9">
+  <div class="col-md-9">
     <div class="col-md-8" style="float: right; margin-top: 50px;">
-    <form class="row g-3 border">
+      <form *ngIf="loginUser" id="loginUser" class="row g-3 loginborder form-group" [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()">
         <div class="col-md-6">
           <label class="form-label">Username</label>
-          <input type="text" class="form-control"  value="Mark" required>
+          <div class="input-group">
+            <span class="input-group-text">@</span>
+            <input type="text" class="form-control" formControlName="luserName" class="form-control"
+              [ngClass]="{ 'is-invalid': lf['luserName'].touched && lf['luserName'].errors }">
+            <div *ngIf="lf['luserName'].errors && lf['luserName'].touched" class="invalid-feedback">
+              <div *ngIf="lf['luserName'].errors['required']">Email is required</div>
+              <div *ngIf="lf['luserName'].errors['email']">Email is invalid</div>
+            </div>
+          </div>
         </div>
         <br>
         <div class="col-md-6">
-          <label  class="form-label">Password</label>
-          <input type="password" class="form-control"  value="Otto" required>
+          <label class="form-label">Password</label>
+          <input type="password" formControlName="lpassword" class="form-control"
+            [ngClass]="{ 'is-invalid': lf['lpassword'].touched && lf['lpassword'].errors }">
+          <div *ngIf=" lf['lpassword'].errors && lf['lpassword'].touched" class="invalid-feedback">
+            <div *ngIf="lf['lpassword'].errors['required']">Password is required</div>
+          </div>
         </div>
         <br>
-        <div class="col-12">
-            <button class="btn btn-success" type="submit">Login</button>
+        <div *ngIf="!(lf['luserName'].touched || lf['lpassword'].touched) && invalidCredentials">
+          <span style="justify-content: center; color: red;">Invalid UserName or Password</span>
         </div>
-    </form>
-    <br><br>
-     <form class="row g-3 border">
-            <div class="col-md-12">
-                <label  class="form-label">Firstname</label>
-                <input type="text" class="form-control"  value="Mark" required>
-              </div>
-              <br>
-              <div class="col-md-12">
-                <label  class="form-label">Lastname</label>
-                <input type="text" class="form-control"  value="Otto" required>
-              </div>
-              <br>
-              <div class="col-md-12">
-                <label class="form-label">Username</label>
-                <div class="input-group">
-                  <span class="input-group-text" >@</span>
-                  <input type="text" class="form-control" aria-describedby="inputGroupPrepend2" required>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <label  class="form-label">Password</label>
-                <input type="password" class="form-control"  value="Otto" required>
-              </div>
-              <br>
-              <div class="col-md-12">
-                <label  class="form-label">Confirm Password</label>
-                <input type="password" class="form-control"  value="Otto" required>
-              </div>
-              <br>
-              <br>
-              <div class="col-md-12">
-                <label  class="form-label">City</label>
-                <input type="text" class="form-control" required>
-              </div>
-              <br>
-              <div class="col-md-12">
-                <label for="validationDefault04" class="form-label">State</label>
-                <select class="form-select" id="validationDefault04" required>
-                  <option selected disabled value="">Choose...</option>
-                  <option>...</option>
-                </select>
-              </div>
-              <br>
-              <div class="col-md-12">
-                <label for="validationDefault05" class="form-label">Zip</label>
-                <input type="text" class="form-control" id="validationDefault05" required>
-              </div>
-              <br>
-              <div class="col-12">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                  <label class="form-check-label" for="invalidCheck2">
-                    Agree to terms and conditions
-                  </label>
-                </div>
-              </div>
-              <br>
-              <div class="col-12">
-                <button class="btn btn-primary" type="submit">Submit form</button>
-              </div>
-</form>
+        <br>
+        <div class="col-md-2">
+          <button class="btn btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
+        </div>
+        <div class="col-md-4" style="align-self: end;">
+          <a style="color:#1A6F76;" (click)="getRegistrationForm()">Register New-user</a>
+        </div>
+      </form>
+      <br><br>
+      <form *ngIf="!loginUser && !loginsuccess" id="registerUser" class="row g-3 registerborder"
+        [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="col-md-6">
+          <label class="form-label">Firstname</label>
+          <input type="text" formControlName="firstName" class="form-control"
+            [ngClass]="{'is-invalid': rf['firstName'].touched && rf['firstName'].errors}">
+          <div *ngIf="rf['firstName'].errors && rf['firstName'].touched" class="invalid-feedback">
+            <div *ngIf="rf['firstName'].errors['required']">First name is required</div>
+          </div>
+        </div>
+        <br>
+        <div class="col-md-6">
+          <label class="form-label">Lastname</label>
+          <input type="text" class="form-control" formControlName="lastName" class="form-control"
+            [ngClass]="{ 'is-invalid': rf['lastName'].touched && rf['lastName'].errors }">
+          <div *ngIf="rf['lastName'].errors && rf['lastName'].touched" class="invalid-feedback">
+            <div *ngIf="rf['lastName'].errors['required']">Last name is required</div>
+          </div>
+        </div>
+        <br>
+        <div class="col-md-6">
+          <label class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text">@</span>
+            <input type="text" class="form-control" formControlName="userName" class="form-control"
+              [ngClass]="{'is-invalid': rf['userName'].touched && rf['userName'].errors}">
+            <div *ngIf="rf['userName'].errors && rf['userName'].touched" class="invalid-feedback">
+              <div *ngIf="rf['userName'].errors['required']">Email is required</div>
+              <div *ngIf="rf['userName'].errors['email']">Email is invalid</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Password</label>
+          <input type="password" formControlName="password" class="form-control"
+            [ngClass]="{ 'is-invalid': rf['password'].touched && rf['password'].errors }">
+          <div *ngIf=" rf['password'].errors && rf['password'].touched" class="invalid-feedback">
+            <div *ngIf="rf['password'].errors['required']">Password is required</div>
+            <div *ngIf="rf['password'].errors['minlength']">
+              Password must be at least 8 characters
+            </div>
+            <div *ngIf="rf['password'].errors['maxlength']">
+              Password must not exceed 30 characters
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="col-md-6">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" class="form-control"
+            [ngClass]="{ 'is-invalid': rf['confirmPassword'].touched && rf['confirmPassword'].errors }">
+          <div *ngIf=" rf['confirmPassword'].errors && rf['confirmPassword'].touched" class="invalid-feedback">
+            <div *ngIf="rf['confirmPassword'].errors['required']">Confirm Password is required</div>
+            <div *ngIf="rf['confirmPassword'].errors['confirmPasswordValidator']">
+              Passsword and Confirm Password didn't match.
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="col-md-6">
+        </div>
+        <br>
+        <div class="col-md-2">
+          <button class="btn btn-success" type="submit" [disabled]="!registerForm.valid">Register</button>
+        </div>
+        <div class="col-md-4" style="align-self: end;">
+          <a style="color:#1A6F76;" (click)="cancel()">Cancel</a>
+        </div>
+      </form>
+      <div *ngIf="loginsuccess">
+        <mat-accordion>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <div style="margin-left:0.5em">User Details</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <form [formGroup]="UpdateForm" (ngSubmit)="onSubmit()">
+              <table class="table table1">
+                <tr>
+                  <td><label class="form-label">Firstname</label></td>
+                  <td><input type="text" formControlName="firstName" class="form-control"
+                      [ngClass]="{'is-invalid': uf['firstName'].touched && uf['firstName'].errors}">
+                    <div *ngIf="uf['firstName'].errors && uf['firstName'].touched" class="invalid-feedback">
+                      <div *ngIf="uf['firstName'].errors['required']">First name is required</div>
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Last Name</td>
+                  <td><input type="text" formControlName="lastName" class="form-control"
+                      [ngClass]="{'is-invalid': uf['lastName'].touched && uf['lastName'].errors}">
+                    <div *ngIf="uf['lastName'].errors && uf['lastName'].touched" class="invalid-feedback">
+                      <div *ngIf="uf['lastName'].errors['required']">Last name is required</div>
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><label class="form-label">Password</label></td>
+                  <td><input type="password" formControlName="password" class="form-control"
+                      [ngClass]="{ 'is-invalid': uf['password'].touched && uf['password'].errors }">
+                    <div *ngIf=" uf['password'].errors && uf['password'].touched" class="invalid-feedback">
+                      <div *ngIf="uf['password'].errors['required']">Password is required</div>
+                      <div *ngIf="uf['password'].errors['minlength']">
+                        Password must be at least 8 characters
+                      </div>
+                      <div *ngIf="uf['password'].errors['maxlength']">
+                        Password must not exceed 30 characters
+                      </div>
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><label class="form-label">Confirm Password</label></td>
+                  <td><input type="password" formControlName="confirmPassword" class="form-control"
+                      [ngClass]="{ 'is-invalid': uf['confirmPassword'].touched && uf['confirmPassword'].errors }">
+                    <div *ngIf=" uf['confirmPassword'].errors && uf['confirmPassword'].touched"
+                      class="invalid-feedback">
+                      <div *ngIf="uf['confirmPassword'].errors['required']">Confirm Password is required</div>
+                      <div *ngIf="uf['confirmPassword'].errors['confirmPasswordValidator']">
+                        Passsword and Confirm Password didn't match.
+                      </div>
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><label class="form-label">Username</label></td>
+                  <td><input type="text" formControlName="userName" value="{{loginUserDetails.userName}}"
+                      class="form-control"></td>
+                  <td *ngIf="!isEdit"><button style="border: 0ch;" (click)="onEdit()"><i class="fa fa-pencil"
+                        aria-hidden="true"></i></button></td>
+                  <td *ngIf="isEdit"><button style="border: 0ch;" (click)="cancel()"><i class="fa fa-times"
+                        aria-hidden="true"></i></button></td>
+                  <td *ngIf="isEdit"><button style="border: 0ch;" type="submit" [disabled]="!UpdateForm.valid"><i
+                        class="fa fa-check" aria-hidden="true"></i></button></td>
+                </tr>
+              </table>
+            </form>
+          </mat-expansion-panel>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                <div style="margin-left:0.5em">Orders</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="!orderDisplay" style="color: black; text-align: center;">No Previous Orders
+            </div>
+            <table *ngIf="orderDisplay" class="table table2 border center shadow">
+              <tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
+                <th class="tbl2">Item Image</th>
+                <th></th>
+                <th class="tbl2">Item Name</th>
+                <th class="tbl2">Price</th>
+                <th class="tbl2">Quantity</th>
+                <th class="tbl2">Order Date</th>
+              </tr>
+              <tr class="table-hover" *ngFor="let item of OrdersList">
+                <td class="tbl2">
+                  <img src="../../../assets/images/{{item.itemImage}}" style="width:50px;height:50px; border-radius: 50%;">
+                </td>
+                <td>
+                  <div class="row">
+                    <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+                      fxLayoutAlign="start center">
+                      <rating [(ngModel)]="item.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
+                    </div>
+                  </div>
+                </td>
+                <td class="tbl2">{{item.itemName}}</td>
+                <td class="tbl2">£{{item.itemPrice}}</td>
+                <td class="tbl2">{{item.itemQty}}</td>
+                <td class="tbl2">{{item.orderDate}</td>
+              </tr>
+            </table>
+          </mat-expansion-panel>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                <div style="margin-left:0.5em">Payments</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p style="color: black">This is the primary content of the panel.</p>
+          </mat-expansion-panel>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>account_balance_wallet</mat-icon>
+                <div style="margin-left:0.5em">Wallet</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p style="color: black">Wallet is Empty</p>
+          </mat-expansion-panel>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>card_giftcard</mat-icon>
+                <div style="margin-left:0.5em">Gift card</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p style="color: black">No Gift card available</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <br>
+        <div class="col-12" style="float: right;">
+          <button (click)="signout()"
+            style="float: right;border: #d8eaec; border-radius: 50%;background-color: #d8eaec; padding: 10px;"><i
+              class='fa fa-sign-out fa-3x' style='color:#1A6F76;'></i></button>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-
-

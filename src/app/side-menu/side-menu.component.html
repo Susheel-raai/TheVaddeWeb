@@ -1,45 +1,59 @@
 <!--nav class defined-->
-<header>
-<nav class="navbar navbar-expand-lg navbar-light bg-class card-header"  >
-    <button
+
+<body class="d-flex flex-column min-vh-100">
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-class card-header">
+      <!----<button
     mat-icon-button
     *ngIf="sidenav.mode === 'over'"
     (click)="sidenav.toggle()"
   >
     <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
     <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
-  </button>
-    <a href="home">
-      <img src="./../../assets/images/Logo.jpg" style="height: 100px;" class="rounded-circle">
-   </a>
-    <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: center;">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" style="color: white;" href="home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: white;" href="About us">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link bg-color" style="color: white;" href="contact">Contact us</a>
-        </li>
-      </ul>
-    </div>
-    <div>
+  </button>-->
+      <a href="home">
+        <img src="./../../assets/images/Logo.jpg" style="height: 100px;" class="rounded-circle">
+      </a>
+      <div class="collapse navbar-collapse" style="justify-content: center;">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" style="color: white;" href="home"><i class="fa fa-home"
+                style="color: white;margin-right: 0.25em;" aria-hidden="true"></i>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color: white; margin-left: 25px;" href="menu"><i class="fa fa-cutlery"
+                style="color: white;margin-right: 0.25em;" aria-hidden="true"></i>Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color: white;margin-left: 25px;" href="About us"><i class="fa fa-users"
+                style="color: white;margin-right: 0.25em;" aria-hidden="true"></i>About us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color: white; margin-left: 25px;" href="help"><i class="fa fa-question-circle"
+                style="color: white;margin-right: 0.25em;" aria-hidden="true"></i>Help</a>
+          </li>
+        </ul>
+      </div>
+      <div>
         <div class="collapse navbar-collapse">
           <div class="input-group" style="margin-right: 8px;">
-            <input class="form-control border rounded-pill" type="text" [ngModel]="itemFilter" (ngModelChange)="modelChangeFn($event)" placeholder="search">
+            <a class="nav-link" style="color: white;" href="cart">
+              <mat-icon style="color: white;float: right;">shopping_cart</mat-icon>
+            </a>
+            <input class="form-control border rounded-pill" type="text" [ngModel]="itemFilter"
+              (ngModelChange)="modelChangeFn($event)" placeholder="search">
           </div>
           <a href="user">
-            <img src="../../assets/images/Logo-bg.png" style="justify-content: right; height: 60px;" class="shadow-lg rounded rounded-circle">
-         </a>
+            <img src="../../assets/images/userIcon.png" style="justify-content: right; height: 60px;"
+              class="shadow-lg rounded rounded-circle">
+          </a>
         </div>
-    </div>
-  </nav>
-</header>
-  
+      </div>
+    </nav>
+  </header>
+
   <mat-sidenav-container>
-  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <!--<mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header class="menu-button">
         <span>Menu</span>
@@ -57,7 +71,7 @@
       </div>
     </mat-expansion-panel>
     <mat-divider></mat-divider>
-    <button mat-button class="menu-button">
+    <button mat-button class="menu-button" routerLink="/user">
       <mat-icon>settings</mat-icon>
       <span>Settings</span>
     </button>
@@ -68,19 +82,27 @@
       <mat-icon>help</mat-icon>
       <span>Help</span>
     </button>
-  </mat-sidenav>
-  <mat-sidenav-content>
-      <!---<app-filterfood [itemObj]="itemFilter" style="display:block"></app-filterfood>-->
-     <router-outlet></router-outlet>
-  </mat-sidenav-content>
+  </mat-sidenav>-->
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+      <footer class="mt-auto">
+        <div class="row">
+          <div class="col-md-3">
+            <img src="./../../../assets/images/Logo-bg.png" style="height: 100px;margin: 25px;"
+              class="shadow-lg rounded rounded-circle">
+          </div>
+          <div class="row col-md-8  text-footer">
+            <div class="row col-md-8">
+              <div class="col-md-4">
+                <i class="fa fa-phone" style="margin-right: 0.5em;" aria-hidden="true"></i>+44 7760204953
+              </div>
+              <div class="col-md-4">
+                <i class="fa fa-envelope-o" style="margin-right: 0.45em;" aria-hidden="true"></i>the.vaddes@gmail.com
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </mat-sidenav-content>
   </mat-sidenav-container>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+</body>

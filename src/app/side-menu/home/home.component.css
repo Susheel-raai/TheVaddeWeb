@@ -2,17 +2,6 @@ mat-card {
     background-color: white;
 }
 
-.example-card {
-    max-width: 220px;
-    margin: 20px;
-  }
-
-.image-format{
-   margin: 50px;
-   height: 150px;
-   width: 200px;
-} 
-
 .small-headings{
     color: coral;
     font-weight: bold;
@@ -31,18 +20,8 @@ mat-card {
 }
 
 
-.Center {
-    margin-top: 50px;
-    margin-left: 250px;
-}
-
-.image{
-    opacity: 0.5;
-    filter: alpha(opacity=100);
-}
-
 .card-overlay {
-    background: rgba(0, 0, 0, 0.737);
+    background: rgba(51, 49, 49, 0.737);
     height: 100vh;
     min-height: 350px;
   }

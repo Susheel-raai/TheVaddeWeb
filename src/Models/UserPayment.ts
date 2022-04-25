@@ -1,5 +1,4 @@
-export class FoodItems
-{
+export class UserPayment{
     itemId!: number;
     itemName!: string;
     itemType!: string;
@@ -8,4 +7,9 @@ export class FoodItems
     itemDescription!: string;
     itemReview!:number;
     itemQty!:number;
+    userName!: string;
+    cardNumber!:string;
+    expiryDate!:Date;
+    cvv!:number;
+    orderDate!:Date;
 }

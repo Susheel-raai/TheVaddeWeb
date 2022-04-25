@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { FilterfoodComponent} from './filterfood/filterfood.component';
 import {AboutComponent} from './about/about.component';
-import { ContactComponent} from './contact/contact.component';
 import { UserComponent} from './user/user.component';
+import { HelpComponent } from './help/help.component';
+import { CartComponent} from './cart/cart.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'home', pathMatch: 'full' },
@@ -12,8 +13,9 @@ const routes: Routes = [
   {path :'menu', component : FilterfoodComponent, data:{ state:''}},
   {path :'foodItems', component : FilterfoodComponent},
   {path: 'About us', component: AboutComponent},
-  {path: 'contact', component: ContactComponent},
-  {path: 'user', component:UserComponent}
+  {path: 'user', component:UserComponent},
+  {path: 'help', component:HelpComponent},
+  {path: 'cart', component:CartComponent}
 ];
 
 @NgModule({

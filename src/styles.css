@@ -10,6 +10,7 @@
    max-width: 410px;
    margin: 40px;
    margin-left: 50px;
+   max-height: 370px;
  }
  
  .example-header-image {
@@ -44,11 +45,25 @@ mat-icon
    background-repeat:no-repeat;
    overflow-y: hidden;
    overflow-x: hidden;
-   background-image: url("./assets/images/watermark.png");
+   background-color: rgb(243, 244, 244);
+   /*background-image: url("./assets/images/watermark.png");*/
 } 
 
 .star-gold{
    color: orange;
 }
  
- 
+
+footer {
+   padding: 3px;
+   background-color: rgba(17, 15, 15, 0.644);
+   color: white;
+   height: 150px;
+ }
+
+.text-footer{
+   color: white;
+   margin-top: 50px;
+   margin-left: 100px;
+}
+

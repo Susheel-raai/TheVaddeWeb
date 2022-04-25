@@ -1,0 +1,17 @@
+mat-expansion-panel{
+    background-color: white;
+}
+
+mat-panel-title{
+    color: black;
+ }
+
+ mat-expansion-panel-header{
+     height: 65px;
+ }
+
+ mat-panel-title:hover{
+    color: #1A6F76;
+ }
+
+ 
