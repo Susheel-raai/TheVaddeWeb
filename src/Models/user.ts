@@ -4,6 +4,7 @@ export class loginUser{
 }
 
 export class registerUser{
+    isEdit!:boolean;
     firstName!: string;
     lastName!: string;
     userName!: string;

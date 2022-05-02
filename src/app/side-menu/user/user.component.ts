@@ -166,7 +166,8 @@ export class UserComponent implements OnInit {
   addUser(ruser: registerUser) {
     debugger
     if (this.isEdit) {
-      var observable = this.commonService.Post('/User/UpdateNewUser', ruser);
+      ruser.isEdit=this.isEdit;
+      var observable = this.commonService.Post('/User/AddUser', ruser);
       if (observable != undefined) {
         this.routes = observable.subscribe(data => {
           if (data == 0) {
@@ -183,7 +184,8 @@ export class UserComponent implements OnInit {
       }
     }
     else {
-      var observable = this.commonService.Post('/User/AddNewUser', ruser);
+      ruser.isEdit=this.isEdit;
+      var observable = this.commonService.Post('/User/AddUser', ruser);
       if (observable != undefined) {
         this.routes = observable.subscribe(data => {
           if (data == 0) {

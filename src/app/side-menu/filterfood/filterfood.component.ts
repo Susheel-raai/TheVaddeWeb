@@ -32,7 +32,7 @@ export class FilterfoodComponent implements OnInit {
   getFilteredItems() {
     debugger;
     this.filteredItemsList = JSON.parse(localStorage.getItem('filterItemsList') || '{}');
-    /*this.filterItems == 'Breakfast' ? this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'Breakfast') :
+    /*this.filterItems == 'BreakFast' ? this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'BreakFast') :
       this.filterItems == 'Lunch' ? this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'Lunch') :
         this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'Dinner')*/
   }
