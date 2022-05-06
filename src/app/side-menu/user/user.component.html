@@ -1,6 +1,5 @@
 <div class="content">
-  <div class="col-md-9">
-    <div class="col-md-8" style="float: right; margin-top: 50px;">
+    <div class="col-md-8 usercontent">
       <form *ngIf="loginUser" id="loginUser" class="row g-3 loginborder form-group" [formGroup]="loginForm"
         (ngSubmit)="onSubmit()">
         <div class="col-md-6">
@@ -191,7 +190,7 @@
             </mat-expansion-panel-header>
             <div *ngIf="!orderDisplay" style="color: black; text-align: center;">No Previous Orders
             </div>
-            <table *ngIf="orderDisplay" class="table table2 border center shadow">
+            <table *ngIf="orderDisplay" class="table table2 border shadow">
               <tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
                 <th class="tbl2">Item Image</th>
                 <th></th>
@@ -215,7 +214,7 @@
                 <td class="tbl2">{{item.itemName}}</td>
                 <td class="tbl2">£{{item.itemPrice}}</td>
                 <td class="tbl2">{{item.itemQty}}</td>
-                <td class="tbl2">{{item.orderDate}</td>
+                <td class="tbl2">{{item.orderDate| date:'short'}}</td>
               </tr>
             </table>
           </mat-expansion-panel>
@@ -226,13 +225,25 @@
                 <div style="margin-left:0.5em">Payments</div>
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <p style="color: black">This is the primary content of the panel.</p>
+            <div *ngIf="!paymentDisplay" style="color: black; text-align: center;">No Payment Details
+            </div>
+            <table *ngIf="paymentDisplay" class="table table2 border shadow">
+              <!--<tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
+                <th class="tbl2">Card Number</th>
+                <th class="tbl2">Expiry Date</th>
+                <th></th>
+              </tr>-->
+              <tr *ngFor="let item of PaymentList">
+                <td><i class="fa fa-credit-card" style="margin-left: 100px;" aria-hidden="true"></i> **** **** **** {{item.cardNumber.slice(-4)}}</td>
+                <td><button style="border: white; background-color: whitesmoke;"><i style="color: black; align-self: center;" class="fa fa-trash" aria-hidden="true" (click)="removeCard(item.cardNumber)"></i></button></td>
+              </tr>
+            </table>
           </mat-expansion-panel>
           <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>account_balance_wallet</mat-icon>
-                <div style="margin-left:0.5em">Wallet</div>
+                <div style="margin-left:0.5em">V-Wallet</div>
               </mat-panel-title>
             </mat-expansion-panel-header>
             <p style="color: black">Wallet is Empty</p>
@@ -256,5 +267,4 @@
         <br>
       </div>
     </div>
-  </div>
 </div>

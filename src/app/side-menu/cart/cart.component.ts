@@ -6,6 +6,7 @@ import { UserPayment } from './../../../Models/UserPayment';
 import { CommonService } from '../../common.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { DatePipe } from '@angular/common';
+import { FoodItems } from '../../../Models/foodItems';
 
 @Component({
   selector: 'app-cart',
@@ -15,9 +16,9 @@ import { DatePipe } from '@angular/common';
 export class CartComponent implements OnInit {
 
   public selectedItems: any;
-  public total: number = 0;
   private routes!: Subscription;
   paymentForm!: FormGroup;
+  paymentDisplay = false;
   public loginUser: any;
   public userItemList: UserPayment[] = [];
   constructor(private formBuilder: FormBuilder,private datepipe: DatePipe, private _snackBar: MatSnackBar, private router: Router, private commonService: CommonService) {
@@ -27,7 +28,6 @@ export class CartComponent implements OnInit {
     this.paymentForm = this.formBuilder.group(
       {
         cardNumber: ['', Validators.required],
-        orderDate:['',Validators.required],
         expiryDate: ['', Validators.required],
         cvv: ['', Validators.required]
       },
@@ -47,13 +47,19 @@ export class CartComponent implements OnInit {
     debugger
     this.selectedItems = JSON.parse(localStorage.getItem('SelectedfoodItem') || '{}');
     this.selectedItems = this.selectedItems.filter((x: { itemQty: number; }) => x.itemQty != 0);
+    this.selectedItems.length!=0? this.paymentDisplay = true:this.paymentDisplay=false;
   }
 
   totalPayment() {
-    for (let items of this.selectedItems) {
-      this.total += (items.itemPrice * items.itemQty)
+    let total: number = 0;
+    if(this.selectedItems!=undefined){
+      this.selectedItems = this.selectedItems.filter((x: { itemQty: number; }) => x.itemQty != 0);
+      this.selectedItems.length!=0? this.paymentDisplay = true:this.paymentDisplay=false;
+      for (let items of this.selectedItems) {
+        total += (items.itemPrice * items.itemQty)
+      }
     }
-    return this.total;
+    return total;
   }
 
   onPayment() {
@@ -70,7 +76,6 @@ export class CartComponent implements OnInit {
         this.userItemList[i].cardNumber = paymentDetails.cardNumber
         this.userItemList[i].expiryDate = paymentDetails.expiryDate;
         this.userItemList[i].cvv = paymentDetails.cvv;
-        this.userItemList[i].orderDate = paymentDetails.orderDate;
       }
       var observable = this.commonService.Post('/User/AddUserOrders', this.userItemList);
       if (observable != undefined) {
@@ -96,5 +101,35 @@ export class CartComponent implements OnInit {
 
   openSnackBar(message: string) {
     this._snackBar.open(message, 'OK');
+  }
+
+  addItemCount(itemid: number) {
+    debugger
+    this.selectedItems = this.selectedItems.map((fooditem: FoodItems)=>{
+      if(fooditem.itemId===itemid){
+        fooditem.itemQty = fooditem.itemQty + 1;
+        localStorage.setItem('SelectedfoodItem', JSON.stringify(this.selectedItems));
+        return{
+          ...fooditem,
+          itemQty:fooditem.itemQty
+        }
+      }
+      return fooditem
+    })
+  }
+
+  removeItemCount(itemid: number){
+    debugger
+    this.selectedItems = this.selectedItems.map((fooditem: FoodItems)=>{
+      if(fooditem.itemId===itemid){
+        fooditem.itemQty = fooditem.itemQty-1 > 0 ? fooditem.itemQty - 1 : 0
+        localStorage.setItem('SelectedfoodItem', JSON.stringify(this.selectedItems));
+        return{
+          ...fooditem,
+          itemQty:fooditem.itemQty
+        }
+      }
+      return fooditem;
+    })
   }
 }

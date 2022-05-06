@@ -2,6 +2,13 @@ label {
     color: black;
 }
 
+.usercontent{
+    margin-top: 50px;
+    margin-left: auto;
+    margin-bottom: 0;
+    margin-right: auto;
+}
+
 .loginborder {
     background-color: white;
     opacity: 0.5;
@@ -65,8 +72,6 @@ mat-panel-title:hover{
     color: #1A6F76;
  }
 
- table.table2 th,
 table.table2 td {
     height: 50px;
-    text-align: center;
 }

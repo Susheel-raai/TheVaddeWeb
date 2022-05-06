@@ -23,21 +23,32 @@
         </td>
         <td class="tbl2">{{item.itemName}}</td>
         <td class="tbl2">£{{item.itemPrice}}</td>
-        <td class="tbl2">{{item.itemQty}}</td>
+        <td class="tbl2">
+          <div class="input-group" style="justify-content: center;">
+            <i style="color: #1A6F76; align-self: center;" class="fa fa-minus-square" aria-hidden="true"
+              (click)="removeItemCount(item.itemId)"></i>
+            <p style="color: black; width: 1.5em; text-align: center;margin-top: 10px;">{{item.itemQty}}</p>
+            <i style="color: #1A6F76; align-self: center;" class="fa fa-plus-square" aria-hidden="true"
+              (click)="addItemCount(item.itemId)"></i>
+          </div>
+        </td>
         <td class="tbl2">£{{item.itemQty * item.itemPrice}}</td>
       </tr>
       <tr>
         <td></td>
         <td></td>
-        <td *ngIf="selectedItems!=null"></td>
-        <td *ngIf="selectedItems==null" style="color: black;"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart is Empty</td>
+        <td *ngIf="paymentDisplay"></td>
+        <td *ngIf="!paymentDisplay" style="color: black;"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart is Empty</td>
         <td></td>
         <td><i class="fa fa-credit-card-alt" aria-hidden="true"></i>Total Payment</td>
-        <td>£{{total}}</td>
+        <td>£{{totalPayment()}}</td>
       </tr>
     </table>
     <br>
-    <div class="payment-center">
+    <div *ngIf="paymentDisplay" class="payment-center">
+      <div style="color: black; text-align: center;"> This is a payment design that can take any fake details. This does not contains any payment gateway to do payment.</div>
+      <br>
+      <br>
       <mat-accordion>
         <mat-expansion-panel hideToggle>
           <mat-expansion-panel-header>
@@ -51,22 +62,11 @@
               <tr>
                 <td><i class="fa fa-credit-card" aria-hidden="true"></i><label class="form-label">Card Number</label>
                 </td>
-                <td><input type="text" formControlName="cardNumber" class="form-control"
-                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}">
+                <td>
+                  <input type="text" formControlName="cardNumber" class="form-control"
+                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}" inputmode="numeric" pattern="[1-9]{4}[\s]{1}[0-9]{4}[\s]{1}[0-9]{4}[\s]{1}[0-9]{4}" placeholder="xxxx xxxx xxxx xxxx">
                   <div *ngIf="pf['cardNumber'].errors && pf['cardNumber'].touched" class="invalid-feedback">
                     <div *ngIf="pf['cardNumber'].errors['required']">Card Number is required</div>
-                  </div>
-                </td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td><i class="fa fa-calendar-o" aria-hidden="true"></i><label class="form-label">Order Date</label>
-                </td>
-                <td><input type="date" formControlName="orderDate" class="form-control"
-                    [ngClass]="{'is-invalid': pf['orderDate'].touched && pf['orderDate'].errors}">
-                  <div *ngIf="pf['orderDate'].errors && pf['orderDate'].touched" class="invalid-feedback">
-                    <div *ngIf="pf['orderDate'].errors['required']">Expiry Date is required</div>
                   </div>
                 </td>
                 <td></td>
@@ -87,7 +87,7 @@
               <tr>
                 <td><label class="form-label">CVV</label></td>
                 <td><input type="text" formControlName="cvv" class="form-control"
-                    [ngClass]="{'is-invalid': pf['cvv'].touched && pf['cvv'].errors}">
+                    [ngClass]="{'is-invalid': pf['cvv'].touched && pf['cvv'].errors}" pattern="[0-9]{3}">
                   <div *ngIf="pf['cvv'].errors && pf['cvv'].touched" class="invalid-feedback">
                     <div *ngIf="pf['cvv'].errors['required']">CVV is required</div>
                   </div>

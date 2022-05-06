@@ -28,7 +28,9 @@ export class UserComponent implements OnInit {
   UpdateForm!: FormGroup;
   public userList: any;
   public OrdersList:any=[];
+  public PaymentList:any=[];
   orderDisplay=false;
+  paymentDisplay=false;
   isEdit = false;
   constructor(private scroller: ViewportScroller, private _snackBar: MatSnackBar, private formBuilder: FormBuilder, private router: Router,
     private commonService: CommonService) { }
@@ -47,6 +49,7 @@ export class UserComponent implements OnInit {
       this.updateFormGroup();
       this.disableInputs();
       this.getAllOrders(this.loginUserDetails);
+      this.getPayment(this.loginUserDetails);
     }
   }
 
@@ -220,7 +223,6 @@ export class UserComponent implements OnInit {
   }
 
   getAllOrders(loginData:any){
-    debugger
     var observable = this.commonService.Get('/User/GetUsersOrders');
     if (observable != undefined) {
       this.routes = observable.subscribe(data => {
@@ -230,6 +232,35 @@ export class UserComponent implements OnInit {
       })
     }
   }
+
+  getPayment(loginData:any){
+    var observable = this.commonService.Get('/User/GetPayments');
+    if (observable != undefined) {
+      this.routes = observable.subscribe(data => {
+        this.PaymentList = data;
+        this.PaymentList = this.PaymentList.filter((x:{userName:string}) => x.userName==loginData.userName);
+        this.PaymentList.length==0?this.paymentDisplay=false:this.paymentDisplay=true;
+      })
+    }
+  }
+
+  removeCard(cardnumber: string){
+    debugger;
+    var observable = this.commonService.Delete('/User/RemoveCard?cardnumber='+cardnumber);
+      if (observable != undefined) {
+        this.routes = observable.subscribe(data => {
+          if (data == '') {
+            this.openSnackBar('Card cannot be removed');
+          }
+          else {
+            debugger
+            this.openSnackBar('removed card successfully');
+            this.getAllOrders(this.loginUserDetails);
+            this.getPayment(this.loginUserDetails);
+          }
+        })
+      }
+   }
 
   signout() {
     localStorage.removeItem('login');
