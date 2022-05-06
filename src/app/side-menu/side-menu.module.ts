@@ -19,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { CartComponent } from './cart/cart.component';
 import {MatTableModule} from '@angular/material/table';
 import { DatePipe } from '@angular/common';
+import { TextMaskModule } from 'angular2-text-mask';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { DatePipe } from '@angular/common';
     MatIconModule,
     ToastrModule.forRoot(),
     MatExpansionModule,
-    MatTableModule
+    MatTableModule,
+    TextMaskModule
   ],
   exports:
   [FilterfoodComponent],

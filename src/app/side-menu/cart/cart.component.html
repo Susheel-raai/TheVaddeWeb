@@ -38,7 +38,8 @@
         <td></td>
         <td></td>
         <td *ngIf="paymentDisplay"></td>
-        <td *ngIf="!paymentDisplay" style="color: black;"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart is Empty</td>
+        <td *ngIf="!paymentDisplay" style="color: black;"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart is
+          Empty</td>
         <td></td>
         <td><i class="fa fa-credit-card-alt" aria-hidden="true"></i>Total Payment</td>
         <td>£{{totalPayment()}}</td>
@@ -46,7 +47,8 @@
     </table>
     <br>
     <div *ngIf="paymentDisplay" class="payment-center">
-      <div style="color: black; text-align: center;"> This is a payment design that can take any fake details. This does not contains any payment gateway to do payment.</div>
+      <div style="color: black; text-align: center;"> This is a payment design that can take any fake details. This does
+        not contains any payment gateway to do payment.</div>
       <br>
       <br>
       <mat-accordion>
@@ -63,10 +65,13 @@
                 <td><i class="fa fa-credit-card" aria-hidden="true"></i><label class="form-label">Card Number</label>
                 </td>
                 <td>
-                  <input type="text" formControlName="cardNumber" class="form-control"
-                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}" inputmode="numeric" pattern="[1-9]{4}[\s]{1}[0-9]{4}[\s]{1}[0-9]{4}[\s]{1}[0-9]{4}" placeholder="xxxx xxxx xxxx xxxx">
+                  <input type="text" formControlName="cardNumber" class="form-control"  [textMask]="{mask: cardMaskFunction, guide: false, showMask: true}" 
+                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}" placeholder="xxxx xxxx xxxx xxxx">
                   <div *ngIf="pf['cardNumber'].errors && pf['cardNumber'].touched" class="invalid-feedback">
                     <div *ngIf="pf['cardNumber'].errors['required']">Card Number is required</div>
+                    <div *ngIf="pf['cardNumber'].errors['luhnValidator']">
+                      inValid Card Number
+                    </div>
                   </div>
                 </td>
                 <td></td>

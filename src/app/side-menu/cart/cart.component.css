@@ -47,3 +47,17 @@ table.table2 td {
     padding: 15px;
     text-align: left;
 }
+
+p{
+    text-align: center;
+}
+
+.valid{
+    color: green;
+    content: 'Card Number is Valid';
+}
+
+.invalid{
+    color: red;
+    content: 'Invalid Card Number!';
+}

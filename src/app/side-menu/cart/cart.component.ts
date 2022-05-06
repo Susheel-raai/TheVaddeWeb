@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserPayment } from './../../../Models/UserPayment';
@@ -7,31 +7,44 @@ import { CommonService } from '../../common.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { DatePipe } from '@angular/common';
 import { FoodItems } from '../../../Models/foodItems';
+import { luhnCheck } from '../helpers/luhn.helper';
+import { luhnValidator } from './../validators/luhnValidators'
+import { getValidationConfigFromCardNo } from '../helpers/card.helper';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
+
+
 export class CartComponent implements OnInit {
 
   public selectedItems: any;
   private routes!: Subscription;
   paymentForm!: FormGroup;
   paymentDisplay = false;
+  isValid!: boolean;
   public loginUser: any;
   public userItemList: UserPayment[] = [];
-  constructor(private formBuilder: FormBuilder,private datepipe: DatePipe, private _snackBar: MatSnackBar, private router: Router, private commonService: CommonService) {
-   }
+  
+  
+  constructor(private formBuilder: FormBuilder, private datepipe: DatePipe, private _snackBar: MatSnackBar, private router: Router, private commonService: CommonService) {
+  }
 
   ngOnInit(): void {
+
     this.paymentForm = this.formBuilder.group(
       {
         cardNumber: ['', Validators.required],
         expiryDate: ['', Validators.required],
         cvv: ['', Validators.required]
       },
+      {
+        validator: luhnValidator("cardNumber")
+      }
     );
+    
     if (localStorage.getItem('SelectedfoodItem') != null) {
       this.getSelectedItem();
       this.totalPayment();
@@ -43,18 +56,28 @@ export class CartComponent implements OnInit {
     return this.paymentForm.controls;
   }
 
+  cardMaskFunction(rawValue: string): Array<RegExp> {
+    debugger;
+    const card = getValidationConfigFromCardNo(rawValue);
+    if (card) {
+      return card.mask;
+    }
+    return [/\d/];
+  }
+
+
   getSelectedItem() {
     debugger
     this.selectedItems = JSON.parse(localStorage.getItem('SelectedfoodItem') || '{}');
     this.selectedItems = this.selectedItems.filter((x: { itemQty: number; }) => x.itemQty != 0);
-    this.selectedItems.length!=0? this.paymentDisplay = true:this.paymentDisplay=false;
+    this.selectedItems.length != 0 ? this.paymentDisplay = true : this.paymentDisplay = false;
   }
 
   totalPayment() {
     let total: number = 0;
-    if(this.selectedItems!=undefined){
+    if (this.selectedItems != undefined) {
       this.selectedItems = this.selectedItems.filter((x: { itemQty: number; }) => x.itemQty != 0);
-      this.selectedItems.length!=0? this.paymentDisplay = true:this.paymentDisplay=false;
+      this.selectedItems.length != 0 ? this.paymentDisplay = true : this.paymentDisplay = false;
       for (let items of this.selectedItems) {
         total += (items.itemPrice * items.itemQty)
       }
@@ -105,28 +128,28 @@ export class CartComponent implements OnInit {
 
   addItemCount(itemid: number) {
     debugger
-    this.selectedItems = this.selectedItems.map((fooditem: FoodItems)=>{
-      if(fooditem.itemId===itemid){
+    this.selectedItems = this.selectedItems.map((fooditem: FoodItems) => {
+      if (fooditem.itemId === itemid) {
         fooditem.itemQty = fooditem.itemQty + 1;
         localStorage.setItem('SelectedfoodItem', JSON.stringify(this.selectedItems));
-        return{
+        return {
           ...fooditem,
-          itemQty:fooditem.itemQty
+          itemQty: fooditem.itemQty
         }
       }
       return fooditem
     })
   }
 
-  removeItemCount(itemid: number){
+  removeItemCount(itemid: number) {
     debugger
-    this.selectedItems = this.selectedItems.map((fooditem: FoodItems)=>{
-      if(fooditem.itemId===itemid){
-        fooditem.itemQty = fooditem.itemQty-1 > 0 ? fooditem.itemQty - 1 : 0
+    this.selectedItems = this.selectedItems.map((fooditem: FoodItems) => {
+      if (fooditem.itemId === itemid) {
+        fooditem.itemQty = fooditem.itemQty - 1 > 0 ? fooditem.itemQty - 1 : 0
         localStorage.setItem('SelectedfoodItem', JSON.stringify(this.selectedItems));
-        return{
+        return {
           ...fooditem,
-          itemQty:fooditem.itemQty
+          itemQty: fooditem.itemQty
         }
       }
       return fooditem;
