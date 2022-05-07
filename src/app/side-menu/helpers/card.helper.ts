@@ -8,7 +8,6 @@ const enum CardBrandEnum{
     MAESTRO = 'MAESTRO',
     UNIONPAY = 'UNIONPAY',
     DANKORT = 'DANKORT',
-    FORBRUGSFORENINGEN = 'FORBRUGSFORENINGEN'
   };
 
 const digitMask = (numDigits: number) => Array(numDigits).fill(/\d/);
@@ -37,6 +36,7 @@ export const getValidationConfigFromCardNo = (
       length: number[];
       cvvLength: number[];
       luhn: boolean;
+      imagePath:string;
     }
     
     const defaultMask19 = [
@@ -85,7 +85,8 @@ export const getValidationConfigFromCardNo = (
         mask: defaultMask19,
         length: [13, 16, 19],
         cvvLength: [3],
-        luhn: true
+        luhn: true,
+        imagePath:'visa.png'
       },
       {
         type: CardBrandEnum.MAESTRO,
@@ -94,16 +95,8 @@ export const getValidationConfigFromCardNo = (
         mask: defaultMask19,
         length: [12, 13, 14, 15, 16, 17, 18, 19],
         cvvLength: [3],
-        luhn: true
-      },
-      {
-        type: CardBrandEnum.FORBRUGSFORENINGEN,
-        patterns: [600],
-        format: defaultFormat,
-        mask: defaultMask16,
-        length: [16],
-        cvvLength: [3],
-        luhn: true
+        luhn: true,
+        imagePath:'MaestroCard.png'
       },
       {
         type: CardBrandEnum.DANKORT,
@@ -112,7 +105,8 @@ export const getValidationConfigFromCardNo = (
         mask: defaultMask16,
         length: [16],
         cvvLength: [3],
-        luhn: true
+        luhn: true,
+        imagePath:'dankort.png'
       },
       {
         type: CardBrandEnum.MASTERCARD,
@@ -121,7 +115,8 @@ export const getValidationConfigFromCardNo = (
         mask: defaultMask16,
         length: [16],
         cvvLength: [3],
-        luhn: true
+        luhn: true,
+        imagePath:'MasterCard.png'
       },
       {
         type: CardBrandEnum.AMERICANEXPRESS,
@@ -130,7 +125,8 @@ export const getValidationConfigFromCardNo = (
         mask: amexMask,
         length: [15],
         cvvLength: [3, 4],
-        luhn: true
+        luhn: true,
+        imagePath :'American Express.jpg'
       },
       {
         type: CardBrandEnum.DINERSCLUB,
@@ -139,7 +135,8 @@ export const getValidationConfigFromCardNo = (
         mask: dinersClubMask,
         length: [14],
         cvvLength: [3],
-        luhn: true
+        luhn: true,
+        imagePath :'DinersClub.png'
       },
       {
         type: CardBrandEnum.DISCOVER,
@@ -148,7 +145,8 @@ export const getValidationConfigFromCardNo = (
         mask: defaultMask16,
         length: [16],
         cvvLength: [3],
-        luhn: true
+        luhn: true,
+        imagePath :'Discover.png'
       },
       {
         type: CardBrandEnum.UNIONPAY,
@@ -157,7 +155,8 @@ export const getValidationConfigFromCardNo = (
         mask: defaultMask19,
         length: [16, 17, 18, 19],
         cvvLength: [3],
-        luhn: false
+        luhn: false,
+        imagePath :'UnionPay.png'
       },
       {
         type: CardBrandEnum.JCB,
@@ -166,7 +165,8 @@ export const getValidationConfigFromCardNo = (
         mask: defaultMask19,
         length: [16, 19],
         cvvLength: [3],
-        luhn: true
+        luhn: true,
+        imagePath :'JCBCard.png'
       }
     ]);
     

@@ -65,17 +65,20 @@
                 <td><i class="fa fa-credit-card" aria-hidden="true"></i><label class="form-label">Card Number</label>
                 </td>
                 <td>
-                  <input type="text" formControlName="cardNumber" class="form-control"  [textMask]="{mask: cardMaskFunction, guide: false, showMask: true}" 
-                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}" placeholder="xxxx xxxx xxxx xxxx">
+                  <input type="text" formControlName="cardNumber" class="form-control"
+                    [textMask]="{mask: cardMaskFunction, guide: false, showMask: true}"
+                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}"
+                    placeholder="xxxx xxxx xxxx xxxx" (ngModelChange)="CardDetails($event)">
                   <div *ngIf="pf['cardNumber'].errors && pf['cardNumber'].touched" class="invalid-feedback">
                     <div *ngIf="pf['cardNumber'].errors['required']">Card Number is required</div>
                     <div *ngIf="pf['cardNumber'].errors['luhnValidator']">
-                      inValid Card Number
+                      invalid Card Number
                     </div>
                   </div>
                 </td>
                 <td></td>
-                <td></td>
+                <td><img *ngIf="cardLogoDisplay"
+                  src="../../../assets/images/{{cardLogo}}" style="height: 50px;"></td>
               </tr>
               <tr>
                 <td><i class="fa fa-calendar-o" aria-hidden="true"></i><label class="form-label">Expiry Date</label>

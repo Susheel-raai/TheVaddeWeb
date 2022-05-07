@@ -25,6 +25,10 @@ export class CartComponent implements OnInit {
   paymentForm!: FormGroup;
   paymentDisplay = false;
   isValid!: boolean;
+  cardLogoDisplay = false
+  public patternFormat!:RegExp
+  public cardlength!: number[];
+  public cardLogo!:string;
   public loginUser: any;
   public userItemList: UserPayment[] = [];
   
@@ -63,6 +67,17 @@ export class CartComponent implements OnInit {
       return card.mask;
     }
     return [/\d/];
+  }
+
+  CardDetails(rawValue: string){
+    debugger
+    const card = getValidationConfigFromCardNo(rawValue);
+    if(card){
+      this.cardLogoDisplay = true;
+      this.cardLogo = card.imagePath;
+      this.cardlength = card.length;
+      this.patternFormat = card.format;
+    }
   }
 
 
