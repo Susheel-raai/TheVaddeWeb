@@ -19,7 +19,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   /*onFilterFoodItems(value:string){
-    debugger;
+   
     localStorage.setItem('filterItem',value);
     let filterItemObj = new FilterfoodComponent(this.router, this.sharedservice);
     this.router.navigate(['/menu']);
@@ -29,7 +29,7 @@ export class SideMenuComponent implements OnInit {
   }*/
 
   modelChangeFn(value: any) {
-    debugger;
+   
     this.itemFilter = value;
     this.sharedservice.setFilter(this.itemFilter);
   }

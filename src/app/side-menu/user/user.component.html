@@ -181,14 +181,17 @@
               </table>
             </form>
           </mat-expansion-panel>
-          <mat-expansion-panel hideToggle>
+          <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                 <div style="margin-left:0.5em">Orders</div>
               </mat-panel-title>
+              <mat-panel-description *ngIf="isCancellation" style="justify-content: right;">
+                <button type="button" class="btn btn-danger" (click)="cancelOrder(OrdersList[0].orderDate,OrdersList[0].userName)">Cancel in</button><p style="color: black; font-size: 30px; margin-top: 10px;margin-left:0.5em"> {{minutes}} mm : {{seconds}} sec</p>
+              </mat-panel-description>
             </mat-expansion-panel-header>
-            <div *ngIf="!orderDisplay" style="color: black; text-align: center;">No Previous Orders
+            <div *ngIf="!orderDisplay" style="color: black; text-align: center;">No recent Orders
             </div>
             <table *ngIf="orderDisplay" class="table table2 border shadow">
               <tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
@@ -217,6 +220,8 @@
                 <td class="tbl2">{{item.orderDate| date:'short'}}</td>
               </tr>
             </table>
+            <br>
+            <div><button type="button" class="btn btn-link" style="border:white; float: right; margin-right: 50px;" mat-raised-button (click)="openDialog()">Previous Orders</button></div>
           </mat-expansion-panel>
           <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
@@ -228,14 +233,10 @@
             <div *ngIf="!paymentDisplay" style="color: black; text-align: center;">No Payment Details
             </div>
             <table *ngIf="paymentDisplay" class="table table2 border shadow">
-              <!--<tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
-                <th class="tbl2">Card Number</th>
-                <th class="tbl2">Expiry Date</th>
-                <th></th>
-              </tr>-->
-              <tr *ngFor="let item of PaymentList">
+              <tr *ngFor="let item of paymentList">
                 <td><i class="fa fa-credit-card" style="margin-left: 100px;" aria-hidden="true"></i> **** **** **** {{item.cardNumber.slice(-4)}}</td>
-                <td><button style="border: white; background-color: whitesmoke;"><i style="color: black; align-self: center;" class="fa fa-trash" aria-hidden="true" (click)="removeCard(item.cardNumber)"></i></button></td>
+                <td><img style="height: 50px;" src="../../../assets/images/{{item.cardType}}"></td>
+                <td><button style="border: white; background-color: whitesmoke;"><i style="color: black; align-self: center;" class="fa fa-trash" aria-hidden="true" (click)="removeCard(item.cardNumber, item.userName)"></i></button></td>
               </tr>
             </table>
           </mat-expansion-panel>

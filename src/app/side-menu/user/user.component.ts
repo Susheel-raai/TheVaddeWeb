@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ViewportScroller } from "@angular/common";
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,6 +8,13 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { loginUser } from '../../../Models/user';
 import { registerUser } from '../../../Models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UserPayment } from './../../../Models/UserPayment';
+
+export interface DialogData {
+  PreviousOrderData: any;
+  displayOrderData: any;
+}
 
 @Component({
   selector: 'app-user',
@@ -27,13 +34,25 @@ export class UserComponent implements OnInit {
   registerForm!: FormGroup;
   UpdateForm!: FormGroup;
   public userList: any;
-  public OrdersList:any=[];
-  public PaymentList:any=[];
-  orderDisplay=false;
-  paymentDisplay=false;
+  public OrdersList: any = [];
+  public allOrdersList: any = [];
+  public paymentList: any = [];
+  public userLogList: any = [];
+  public userPayment!: UserPayment;
+  public lastSignoutTime !: string;
+  orderDisplay = false;
+  paymentDisplay = false;
   isEdit = false;
+  isCancellation = false;
+  minutes: any;
+  seconds: any;
+  signoutFlag = false;
+  //ordertime = JSON.parse(localStorage.getItem('paymentSuccessful') || '{}');
+  canceltimer: number = 0
   constructor(private scroller: ViewportScroller, private _snackBar: MatSnackBar, private formBuilder: FormBuilder, private router: Router,
-    private commonService: CommonService) { }
+    private commonService: CommonService, public dialog: MatDialog) {
+      this.userPayment = new UserPayment();
+     }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group(
@@ -48,6 +67,7 @@ export class UserComponent implements OnInit {
     if (localStorage.getItem('login') != null) {
       this.updateFormGroup();
       this.disableInputs();
+      this.getUserLogs(this.loginUserDetails);
       this.getAllOrders(this.loginUserDetails);
       this.getPayment(this.loginUserDetails);
     }
@@ -69,7 +89,7 @@ export class UserComponent implements OnInit {
   }
 
   updateFormGroup() {
-    debugger;
+   
     this.UpdateForm = this.formBuilder.group(
       {
         firstName: [this.loginUserDetails.firstName, Validators.required],
@@ -91,7 +111,7 @@ export class UserComponent implements OnInit {
   }
 
   cancel() {
-    debugger
+    
     if (this.isEdit) {
       this.reloadCurrentRoute();
     }
@@ -131,7 +151,7 @@ export class UserComponent implements OnInit {
 
 
   onSubmit() {
-    debugger
+    
     if (this.isEdit) {
       const updateUserdata = this.UpdateForm.value;
       updateUserdata.userName = this.loginUserDetails.userName;
@@ -157,7 +177,7 @@ export class UserComponent implements OnInit {
 
 
   getAllUsers() {
-    debugger
+    
     var observable = this.commonService.Get('/User/GetAllUsers');
     if (observable != undefined) {
       this.routes = observable.subscribe(data => {
@@ -167,9 +187,9 @@ export class UserComponent implements OnInit {
   }
 
   addUser(ruser: registerUser) {
-    debugger
+    
     if (this.isEdit) {
-      ruser.isEdit=this.isEdit;
+      ruser.isEdit = this.isEdit;
       var observable = this.commonService.Post('/User/AddUser', ruser);
       if (observable != undefined) {
         this.routes = observable.subscribe(data => {
@@ -178,7 +198,7 @@ export class UserComponent implements OnInit {
             this.router.navigate(['/home']);
           }
           else {
-            debugger
+            
             this.openSnackBar('Updated successfully');
             localStorage.setItem('login', JSON.stringify(ruser));
             this.router.navigate(['/home']);
@@ -187,7 +207,7 @@ export class UserComponent implements OnInit {
       }
     }
     else {
-      ruser.isEdit=this.isEdit;
+      ruser.isEdit = this.isEdit;
       var observable = this.commonService.Post('/User/AddUser', ruser);
       if (observable != undefined) {
         this.routes = observable.subscribe(data => {
@@ -196,7 +216,7 @@ export class UserComponent implements OnInit {
             this.router.navigate(['/home']);
           }
           else {
-            debugger
+            
             this.openSnackBar('Registered successfully');
             localStorage.setItem('login', JSON.stringify(ruser));
             this.router.navigate(['/home']);
@@ -207,7 +227,6 @@ export class UserComponent implements OnInit {
   }
 
   userLogin(loginUserData: loginUser) {
-    debugger
     this.loginUserDetails = this.userList.filter((x: { userName: string, password: string }) => x.userName == loginUserData.luserName && x.password == loginUserData.lpassword);
     if (this.loginUserDetails.length == 1) {
       this.loginsuccess = true;
@@ -222,50 +241,148 @@ export class UserComponent implements OnInit {
     }
   }
 
-  getAllOrders(loginData:any){
+  getAllOrders(loginData: any) {
+    debugger;
     var observable = this.commonService.Get('/User/GetUsersOrders');
     if (observable != undefined) {
       this.routes = observable.subscribe(data => {
-        this.OrdersList = data;
-        this.OrdersList = this.OrdersList.filter((x:{userName:string}) => x.userName==loginData.userName);
-        this.OrdersList.length==0?this.orderDisplay=false:this.orderDisplay=true;
+        this.allOrdersList = data;
+        this.allOrdersList = this.allOrdersList.filter((x: { userName: string }) => x.userName == loginData.userName);
+        this.allOrdersList.length == 0 ? this.orderDisplay = false : this.orderDisplay = true;
+        if (this.allOrdersList.length != 0) {
+          var latestOrderDate = this.allOrdersList[this.allOrdersList.length - 1].orderDate;
+          this.OrdersList = this.allOrdersList.filter(((x: { orderDate: any; }) => x.orderDate == latestOrderDate))
+          let newDate = new Date(latestOrderDate);
+          var lastOrderDate = newDate.getTime();
+          var cancellationLimit = new Date(lastOrderDate + 20 * 60000);
+          var currentDate = new Date();
+          var currenttime = new Date(currentDate.getTime())
+          let signoutTime = new Date(this.lastSignoutTime);
+          this.canceltimer = localStorage.getItem(loginData.userName) == null ? 1200 : JSON.parse(localStorage.getItem(loginData.userName) || '{}');
+          if (currenttime < cancellationLimit) {
+            setInterval(() => {
+              if (this.canceltimer > 0) {
+                this.isCancellation = true
+                if(this.signoutFlag){
+                  var signOutValue = signoutTime.getTime();
+                  var difference = currentDate.getTime() - signOutValue;
+                  difference = Math.floor((difference / 1000) % 60)
+                  this.canceltimer = this.canceltimer-difference;
+                  this.signoutFlag = false;
+                }
+                else{
+                  this.canceltimer--;
+                }
+                this.minutes = Math.floor(this.canceltimer / 60);
+                this.seconds = this.canceltimer - this.minutes * 60;
+                localStorage.setItem(loginData.userName, JSON.stringify(this.canceltimer));
+              } else {
+                this.isCancellation = false;
+                this.canceltimer = 0;
+              }
+            }, 1000)
+          }
+          else {
+            this.isCancellation = false;
+            this.canceltimer = 0;
+          }
+        }
       })
     }
   }
 
-  getPayment(loginData:any){
+  openDialog(): void {
+    const dialogRef = this.dialog.open(PreviousOrdersdialog, {
+      width: '100%',
+      data: { PreviousOrderData: this.allOrdersList, displayOrderData: this.orderDisplay },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  getPayment(loginData: any) {
     var observable = this.commonService.Get('/User/GetPayments');
     if (observable != undefined) {
       this.routes = observable.subscribe(data => {
-        this.PaymentList = data;
-        this.PaymentList = this.PaymentList.filter((x:{userName:string}) => x.userName==loginData.userName);
-        this.PaymentList.length==0?this.paymentDisplay=false:this.paymentDisplay=true;
+        this.paymentList = data;
+        this.paymentList = this.paymentList.filter((x: { userName: string }) => x.userName == loginData.userName);
+        this.paymentList.length == 0 ? this.paymentDisplay = false : this.paymentDisplay = true;
       })
     }
   }
 
-  removeCard(cardnumber: string){
-    debugger;
-    var observable = this.commonService.Delete('/User/RemoveCard?cardnumber='+cardnumber);
-      if (observable != undefined) {
-        this.routes = observable.subscribe(data => {
-          if (data == '') {
-            this.openSnackBar('Card cannot be removed');
-          }
-          else {
-            debugger
-            this.openSnackBar('removed card successfully');
-            this.getAllOrders(this.loginUserDetails);
-            this.getPayment(this.loginUserDetails);
-          }
-        })
-      }
-   }
+  cancelOrder(orderdate: Date,username: string) {
+    debugger
+    this.userPayment.userName = username;
+    this.userPayment.orderDate = orderdate;
+    var observable = this.commonService.Post('/User/CancelOrder', this.userPayment);
+    if (observable != undefined) {
+      this.routes = observable.subscribe(data => {
+        if (data == '') {
+          this.openSnackBar('Order cannot be Cancelled');
+        }
+        else {
+          this.isCancellation = false;
+          localStorage.removeItem(this.loginUserDetails.userName);
+          this.canceltimer = 0;
+          this.openSnackBar('Order Cancel successfully');
+          this.getAllOrders(this.loginUserDetails);
+          this.getPayment(this.loginUserDetails);
+        }
+      })
+    }
+  }
+
+  removeCard(cardnumber: string, username:any) {
+   
+    this.userPayment.cardNumber = cardnumber;
+    this.userPayment.userName = username;
+    var observable = this.commonService.Post('/User/RemoveCard', this.userPayment);
+    if (observable != undefined) {
+      this.routes = observable.subscribe(data => {
+        if (data == '') {
+          this.openSnackBar('Card cannot be removed');
+        }
+        else {
+          this.openSnackBar('removed card successfully');
+          this.getAllOrders(this.loginUserDetails);
+          this.getPayment(this.loginUserDetails);
+        }
+      })
+    }
+  }
 
   signout() {
-    localStorage.removeItem('login');
-    this.loginUser = true;
-    this.router.navigate(['/home']);
+    var observable = this.commonService.Update('/User/UserLogsDeatils?username=' +this.loginUserDetails.userName);
+    if(observable!=undefined){
+      this.routes = observable.subscribe(data=>{
+        if(data==1){
+          localStorage.removeItem('login');
+          this.loginUser = true;
+          this.router.navigate(['/home']);
+          this.signoutFlag = true;
+        }
+        else{
+          this.openSnackBar('Trouble in Signing out')
+        }
+      })
+    }
+  }
+
+  getUserLogs(loginData: any){
+    debugger
+    var observable = this.commonService.Get('/User/GetUserLogs');
+    if (observable != undefined) {
+      this.routes = observable.subscribe(data => {
+        this.userLogList = data;
+        this.userLogList = this.userLogList.filter((x: { userName: string }) => x.userName == loginData.userName);
+        if(this.userLogList.length!=0){
+          this.lastSignoutTime = this.userLogList[this.userLogList.length - 1].logOutTime;
+        }
+      })
+    }
   }
 
   openSnackBar(message: string) {
@@ -273,10 +390,26 @@ export class UserComponent implements OnInit {
   }
 
   reloadCurrentRoute() {
-    debugger;
+   
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([currentUrl]);
     });
+  }
+}
+
+@Component({
+  selector: 'previousOrdersdialog',
+  templateUrl: 'previousOrdersdialog.html',
+  styleUrls: ['./previousOrdersdialog.css']
+})
+export class PreviousOrdersdialog {
+  constructor(
+    public dialogRef: MatDialogRef<PreviousOrdersdialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

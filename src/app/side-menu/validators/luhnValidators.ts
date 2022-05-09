@@ -2,7 +2,7 @@ import { ValidatorFn, AbstractControl,FormGroup } from '@angular/forms';
 import { luhnCheck } from '../helpers/luhn.helper';
 
 export function luhnValidator(controlName: string) {
-    debugger;
+   
   return (formGroup: FormGroup) => {
     let control = formGroup.controls[controlName];
     const isValid = luhnCheck(control.value);

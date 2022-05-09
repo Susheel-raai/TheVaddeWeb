@@ -67,3 +67,6 @@ footer {
    margin-left: 100px;
 }
 
+.mat-dialog-container {
+   background: white;
+}

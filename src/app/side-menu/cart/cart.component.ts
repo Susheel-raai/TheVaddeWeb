@@ -26,13 +26,13 @@ export class CartComponent implements OnInit {
   paymentDisplay = false;
   isValid!: boolean;
   cardLogoDisplay = false
-  public patternFormat!:RegExp
+  public patternFormat!: RegExp
   public cardlength!: number[];
-  public cardLogo!:string;
+  public cardLogo!: string;
   public loginUser: any;
   public userItemList: UserPayment[] = [];
-  
-  
+
+
   constructor(private formBuilder: FormBuilder, private datepipe: DatePipe, private _snackBar: MatSnackBar, private router: Router, private commonService: CommonService) {
   }
 
@@ -48,7 +48,7 @@ export class CartComponent implements OnInit {
         validator: luhnValidator("cardNumber")
       }
     );
-    
+
     if (localStorage.getItem('SelectedfoodItem') != null) {
       this.getSelectedItem();
       this.totalPayment();
@@ -61,7 +61,7 @@ export class CartComponent implements OnInit {
   }
 
   cardMaskFunction(rawValue: string): Array<RegExp> {
-    debugger;
+   
     const card = getValidationConfigFromCardNo(rawValue);
     if (card) {
       return card.mask;
@@ -69,10 +69,10 @@ export class CartComponent implements OnInit {
     return [/\d/];
   }
 
-  CardDetails(rawValue: string){
-    debugger
+  CardDetails(rawValue: string) {
+    
     const card = getValidationConfigFromCardNo(rawValue);
-    if(card){
+    if (card) {
       this.cardLogoDisplay = true;
       this.cardLogo = card.imagePath;
       this.cardlength = card.length;
@@ -82,7 +82,7 @@ export class CartComponent implements OnInit {
 
 
   getSelectedItem() {
-    debugger
+    
     this.selectedItems = JSON.parse(localStorage.getItem('SelectedfoodItem') || '{}');
     this.selectedItems = this.selectedItems.filter((x: { itemQty: number; }) => x.itemQty != 0);
     this.selectedItems.length != 0 ? this.paymentDisplay = true : this.paymentDisplay = false;
@@ -101,7 +101,7 @@ export class CartComponent implements OnInit {
   }
 
   onPayment() {
-    debugger
+    
     if (this.loginUser == null) {
       this.openSnackBar('You need to login to do payment');
       this.router.navigate(['/user']);
@@ -114,19 +114,22 @@ export class CartComponent implements OnInit {
         this.userItemList[i].cardNumber = paymentDetails.cardNumber
         this.userItemList[i].expiryDate = paymentDetails.expiryDate;
         this.userItemList[i].cvv = paymentDetails.cvv;
+        this.userItemList[i].cardType = this.cardLogo
       }
       var observable = this.commonService.Post('/User/AddUserOrders', this.userItemList);
       if (observable != undefined) {
         this.routes = observable.subscribe(data => {
-          if (data == 0) {
-            this.openSnackBar('Error in Payment');
-            this.router.navigate(['/menu']);
-          }
-          else {
-            debugger
+          if (data == 1) {
             this.openSnackBar('Payment Successful');
             this.router.navigate(['/user']);
             localStorage.removeItem('SelectedfoodItem');
+            /*var currentDate = new Date();
+            var currenttime= currentDate.getTime()
+            localStorage.setItem('paymentSuccessful', JSON.stringify(currenttime));*/
+          }
+          else {
+            this.openSnackBar('Error in Payment');
+            this.router.navigate(['/menu']);
           }
         })
       }
@@ -142,7 +145,7 @@ export class CartComponent implements OnInit {
   }
 
   addItemCount(itemid: number) {
-    debugger
+    
     this.selectedItems = this.selectedItems.map((fooditem: FoodItems) => {
       if (fooditem.itemId === itemid) {
         fooditem.itemQty = fooditem.itemQty + 1;
@@ -157,7 +160,7 @@ export class CartComponent implements OnInit {
   }
 
   removeItemCount(itemid: number) {
-    debugger
+    
     this.selectedItems = this.selectedItems.map((fooditem: FoodItems) => {
       if (fooditem.itemId === itemid) {
         fooditem.itemQty = fooditem.itemQty - 1 > 0 ? fooditem.itemQty - 1 : 0

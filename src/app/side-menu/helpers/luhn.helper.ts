@@ -1,5 +1,5 @@
 export const luhnCheck = (cardNumber: string): boolean => {
-  debugger;
+ 
     if(!cardNumber.length){
       return false;
     }

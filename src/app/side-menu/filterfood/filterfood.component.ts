@@ -30,7 +30,7 @@ export class FilterfoodComponent implements OnInit {
   }
 
   getFilteredItems() {
-    debugger;
+   
     this.filteredItemsList = JSON.parse(localStorage.getItem('filterItemsList') || '{}');
     /*this.filterItems == 'BreakFast' ? this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'BreakFast') :
       this.filterItems == 'Lunch' ? this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'Lunch') :
@@ -38,7 +38,7 @@ export class FilterfoodComponent implements OnInit {
   }
 
   removeItemCount(itemid: number) {
-    debugger
+    
     this.filteredItemsList = this.filteredItemsList.map((foodItem: FoodItems) => {
       if (foodItem.itemId === itemid) {
         if (this.selectItemsList.find((x: { itemId: number; }) => x.itemId === itemid)) {
@@ -58,7 +58,7 @@ export class FilterfoodComponent implements OnInit {
   }
 
   addItemCount(itemid: number) {
-    debugger
+    
     this.filteredItemsList = this.filteredItemsList.map((foodItem: FoodItems) => {
       if (foodItem.itemId === itemid) {
         if (this.selectItemsList.find((x: { itemId: number; }) => x.itemId === itemid)) {
@@ -82,7 +82,7 @@ export class FilterfoodComponent implements OnInit {
   }
 
   /*reloadCurrentRoute() {
-     debugger;
+    
      let currentUrl = this.router.url;
      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
        this.router.navigate([currentUrl]);

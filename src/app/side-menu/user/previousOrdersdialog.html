@@ -1,0 +1,37 @@
+<div class="usercontent">
+<h2 mat-dialog-title style="color: black;">Your Previous Orders</h2>
+<mat-dialog-content class="mat-typography">
+  <div *ngIf="!data.displayOrderData" style="color: black; text-align: center;">No previous orders
+  </div>
+    <table *ngIf="data.displayOrderData" class="table table2 border shadow">
+        <tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
+          <th class="tbl2">Item Image</th>
+          <th></th>
+          <th class="tbl2">Item Name</th>
+          <th class="tbl2">Price</th>
+          <th class="tbl2">Quantity</th>
+          <th class="tbl2">Order Date</th>
+        </tr>
+        <tr class="table-hover" *ngFor="let item of data.PreviousOrderData">
+          <td class="tbl2">
+            <img src="../../../assets/images/{{item.itemImage}}" style="width:50px;height:50px; border-radius: 50%;">
+          </td>
+          <td>
+            <div class="row">
+              <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+                fxLayoutAlign="start center">
+                <rating [(ngModel)]="item.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
+              </div>
+            </div>
+          </td>
+          <td class="tbl2">{{item.itemName}}</td>
+          <td class="tbl2">£{{item.itemPrice}}</td>
+          <td class="tbl2">{{item.itemQty}}</td>
+          <td class="tbl2">{{item.orderDate| date:'short'}}</td>
+        </tr>
+      </table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button type="button" class="btn btn-info" (click)="onNoClick()" mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
+</div>

@@ -20,9 +20,8 @@ export class CommonService {
     return this.http.post(this.url + this.apiName + apiUrl, data, httpOptions);
   }
 
-  Delete(apiUrl: string) {
-    debugger
+  Update(apiUrl: string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.delete(this.url + this.apiName + apiUrl, httpOptions);
+    return this.http.post(this.url + this.apiName + apiUrl, httpOptions);
   }
 }

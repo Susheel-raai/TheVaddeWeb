@@ -11,6 +11,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user.component';
 import { ToastrModule } from 'ngx-toastr';
+import {PreviousOrdersdialog} from './user/user.component'
 import {MatExpansionModule} from '@angular/material/expansion';
 import { HelpComponent } from './help/help.component';
 import { MatDividerModule } from '@angular/material/divider';
@@ -20,6 +21,7 @@ import { CartComponent } from './cart/cart.component';
 import {MatTableModule} from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { TextMaskModule } from 'angular2-text-mask';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     HomeComponent,
     FilterfoodComponent,
     UserComponent,
+    PreviousOrdersdialog,
     HelpComponent,
     CartComponent
   ],
@@ -46,7 +49,8 @@ import { TextMaskModule } from 'angular2-text-mask';
     ToastrModule.forRoot(),
     MatExpansionModule,
     MatTableModule,
-    TextMaskModule
+    TextMaskModule,
+    MatDialogModule
   ],
   exports:
   [FilterfoodComponent],

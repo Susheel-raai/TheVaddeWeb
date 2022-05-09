@@ -1,0 +1,20 @@
+button{
+    border-color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    float: right;
+    margin-right: 50px;
+}
+
+.usercontent{
+    margin-left: auto;
+    margin-bottom: 0;
+    margin-right: auto;
+    background-color: white;
+}
+
+
+th,td {
+    height: 60px;
+    text-align: center;
+}

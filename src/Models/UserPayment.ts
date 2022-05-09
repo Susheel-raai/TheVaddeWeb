@@ -12,4 +12,5 @@ export class UserPayment{
     expiryDate!:Date;
     cvv!:number;
     orderDate!:Date;
+    cardType!:string
 }
