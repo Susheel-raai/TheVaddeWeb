@@ -77,8 +77,7 @@
                   </div>
                 </td>
                 <td></td>
-                <td><img *ngIf="cardLogoDisplay"
-                  src="../../../assets/images/{{cardLogo}}" style="height: 50px;"></td>
+                <td><img *ngIf="cardLogoDisplay" src="../../../assets/images/{{cardLogo}}" style="height: 50px;"></td>
               </tr>
               <tr>
                 <td><i class="fa fa-calendar-o" aria-hidden="true"></i><label class="form-label">Expiry Date</label>
@@ -100,12 +99,40 @@
                     <div *ngIf="pf['cvv'].errors['required']">CVV is required</div>
                   </div>
                 </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><label class="form-label">Address</label></td>
+                <td><input type="text" formControlName="address" class="form-control"
+                    [ngClass]="{'is-invalid': pf['address'].touched && pf['address'].errors}">
+                  <div *ngIf="pf['address'].errors && pf['address'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['address'].errors['required']">Address is required</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><label class="form-label">Postcode</label></td>
+                <td><input type="text" class="form-control" aria-label="State" (ngModelChange)="getPostCodes($event)" [matAutocomplete]="auto" formControlName="postcode"
+                  [ngClass]="{'is-invalid': pf['postcode'].touched && pf['postcode'].errors}">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option style="background-color: white;" *ngFor="let state of filteredpostcode | async" [value]="state.postcode">
+                      <span style="color: black;">{{state.postcode}}</span> 
+                    </mat-option>
+                  </mat-autocomplete>
+                  <div *ngIf="pf['postcode'].errors && pf['postcode'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['postcode'].errors['required']">Postcode is required</div>
+                  </div>
+                </td>
                 <td><button style="border: 0ch;" (click)="cancel()"><i class="fa fa-times"
-                      aria-hidden="true"></i></button></td>
-                <td><button style="border: 0ch;" type="submit" [disabled]="!paymentForm.valid"><i class="fa fa-check"
-                      aria-hidden="true"></i></button></td>
+                  aria-hidden="true"></i></button></td>
+            <td><button style="border: 0ch;" type="submit" [disabled]="!paymentForm.valid"><i class="fa fa-check"
+                  aria-hidden="true"></i></button></td>
               </tr>
             </table>
+            <div *ngIf="googleMapDisplay" #map style="height:450px;width:740px"></div>
           </form>
         </mat-expansion-panel>
       </mat-accordion>

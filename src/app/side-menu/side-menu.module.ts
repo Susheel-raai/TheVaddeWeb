@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SideMenuRoutingModule } from './side-menu-routing.module';
-import { AboutComponent } from './about/about.component';
 import { FilterfoodComponent } from './filterfood/filterfood.component';
 import {MatCardModule} from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule }from '@angular/forms';
@@ -21,12 +20,12 @@ import { CartComponent } from './cart/cart.component';
 import {MatTableModule} from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { TextMaskModule } from 'angular2-text-mask';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
-    AboutComponent,
     HomeComponent,
     FilterfoodComponent,
     UserComponent,
@@ -50,6 +49,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatExpansionModule,
     MatTableModule,
     TextMaskModule,
+    MatAutocompleteModule,
     MatDialogModule
   ],
   exports:

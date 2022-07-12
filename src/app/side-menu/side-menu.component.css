@@ -19,6 +19,7 @@ mat-sidenav-container {
   height: calc(100vh - 65px);
 }
 
+
 .menu-button {
   width: 100%;
   display: flex;
@@ -55,7 +56,7 @@ mat-divider {
   display: block;
   height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow-x: hidden;
   background-color: white;
 }
 
@@ -65,4 +66,13 @@ mat-divider {
 
 .border-bg {
   border-color: #086178;
+}
+
+.circle {
+  float: right;
+  height: 13px;
+  width: 13px;
+  background-color: white;
+  border-radius: 50%;
+  text-align: center;
 }

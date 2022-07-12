@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Output, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from './../../shared.service';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,6 @@ export class FilterfoodComponent implements OnInit {
   public lunchItemsList: any;
   public dinnerItemsList: any;
   public foodItemList: any = [];
-  public filterItems: any;
   public selectItemsList: FoodItems[] = localStorage.getItem('SelectedfoodItem') == null ? [] : JSON.parse(localStorage.getItem('SelectedfoodItem') || '{}');
   itemfiltered: any;
   subscription!: Subscription;
@@ -24,21 +23,19 @@ export class FilterfoodComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterItems = localStorage.getItem('filterItem');
-    this.getFilteredItems();
+    debugger;
+    this.filteredItemsList = JSON.parse(localStorage.getItem('filterItemsList') || '{}');
     localStorage.removeItem('SelectedfoodItem');
   }
 
-  getFilteredItems() {
-   
+  /*getFilteredItems() {
     this.filteredItemsList = JSON.parse(localStorage.getItem('filterItemsList') || '{}');
     /*this.filterItems == 'BreakFast' ? this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'BreakFast') :
       this.filterItems == 'Lunch' ? this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'Lunch') :
-        this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'Dinner')*/
-  }
+        this.filteredItemsList = this.filteredItemsList.filter((x: { itemType: string; }) => x.itemType == 'Dinner')
+  }*/
 
   removeItemCount(itemid: number) {
-    
     this.filteredItemsList = this.filteredItemsList.map((foodItem: FoodItems) => {
       if (foodItem.itemId === itemid) {
         if (this.selectItemsList.find((x: { itemId: number; }) => x.itemId === itemid)) {
@@ -54,11 +51,9 @@ export class FilterfoodComponent implements OnInit {
       }
       return foodItem;
     })
-
   }
 
   addItemCount(itemid: number) {
-    
     this.filteredItemsList = this.filteredItemsList.map((foodItem: FoodItems) => {
       if (foodItem.itemId === itemid) {
         if (this.selectItemsList.find((x: { itemId: number; }) => x.itemId === itemid)) {
@@ -80,12 +75,4 @@ export class FilterfoodComponent implements OnInit {
       return foodItem;
     })
   }
-
-  /*reloadCurrentRoute() {
-    
-     let currentUrl = this.router.url;
-     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-       this.router.navigate([currentUrl]);
-     });
-   }*/
 }

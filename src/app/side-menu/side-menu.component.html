@@ -25,10 +25,6 @@
                 style="color: white;margin-right: 0.25em;" aria-hidden="true"></i>Menu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" style="color: white;margin-left: 25px;" href="About us"><i class="fa fa-users"
-                style="color: white;margin-right: 0.25em;" aria-hidden="true"></i>About us</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" style="color: white; margin-left: 25px;" href="help"><i class="fa fa-question-circle"
                 style="color: white;margin-right: 0.25em;" aria-hidden="true"></i>Help</a>
           </li>
@@ -38,6 +34,7 @@
         <div class="collapse navbar-collapse">
           <div class="input-group" style="margin-right: 8px;">
             <a class="nav-link" style="color: white;" href="cart">
+              <sup><span class="circle"><p style="color: #1A6F76;margin-top:6px;"><b>{{ItemCount}}</b></p></span></sup>
               <mat-icon style="color: white;float: right;">shopping_cart</mat-icon>
             </a>
             <input class="form-control border rounded-pill" type="text" [ngModel]="itemFilter"
@@ -53,36 +50,6 @@
   </header>
 
   <mat-sidenav-container>
-    <!--<mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
-    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-      <mat-expansion-panel-header class="menu-button">
-        <span>Menu</span>
-      </mat-expansion-panel-header>
-      <div class="matSidenav">
-        <button mat-button class="menu-button" (click)="onFilterFoodItems('BreakFast')" (click)="sidenav.toggle()">
-          <span>BreakFast</span>
-        </button>
-        <button mat-button class="menu-button" (click)="onFilterFoodItems('Lunch')" (click)="sidenav.toggle()">
-          <span>Lunch</span>
-        </button>
-        <button mat-button class="menu-button"  (click)="onFilterFoodItems('Dinner')" (click)="sidenav.toggle()">
-          <span>Dinner</span>
-        </button>
-      </div>
-    </mat-expansion-panel>
-    <mat-divider></mat-divider>
-    <button mat-button class="menu-button" routerLink="/user">
-      <mat-icon>settings</mat-icon>
-      <span>Settings</span>
-    </button>
-  
-    <mat-divider></mat-divider>
-  
-    <button mat-button class="menu-button" routerLink="/help">
-      <mat-icon>help</mat-icon>
-      <span>Help</span>
-    </button>
-  </mat-sidenav>-->
     <mat-sidenav-content>
       <router-outlet></router-outlet>
       <footer class="mt-auto">

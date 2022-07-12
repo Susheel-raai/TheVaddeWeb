@@ -11,7 +11,6 @@ label {
 
 .loginborder {
     background-color: white;
-    opacity: 0.5;
     background-image: url('../../../assets/images/login image.png');
     padding: 20px;
     border-radius: 5px;
@@ -20,20 +19,19 @@ label {
 
 .registerborder {
     background-color: white;
-    opacity: 0.5;
     background-image: url('../../../assets/images/login image.png');
     padding: 20px;
     border-radius: 5px;
     margin-top: 40px;
 }
 
-.loginborder:hover {
+/*.loginborder:hover {
     opacity: 1.0;
 }
 
 .registerborder:hover {
     opacity: 1.0;
-}
+}*/
 
 table.table1 td {
     padding: 15px;

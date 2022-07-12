@@ -65,6 +65,8 @@ export class UserComponent implements OnInit {
     this.getAllUsers();
     this.loginUserDetails = localStorage.getItem('login') == null ? this.loginUserDetails : JSON.parse(localStorage.getItem('login') || '{}')
     if (localStorage.getItem('login') != null) {
+      this.signoutFlag = localStorage.getItem('signOutFlag')==null? false : JSON.parse(localStorage.getItem('signOutFlag')||'{}');
+      //localStorage.removeItem(this.loginUserDetails.userName)
       this.updateFormGroup();
       this.disableInputs();
       this.getUserLogs(this.loginUserDetails);
@@ -105,18 +107,19 @@ export class UserComponent implements OnInit {
   }
 
   getRegistrationForm() {
+    this.registerForm.reset();
     this.scroller.scrollToAnchor('registerUser');
     this.loginUser = false;
     this.loginsuccess = false;
   }
 
   cancel() {
-    
     if (this.isEdit) {
       this.reloadCurrentRoute();
     }
     else {
       this.loginUser = true;
+      this.loginForm.reset()
       this.scroller.scrollToAnchor('loginUser');
     }
   }
@@ -252,17 +255,25 @@ export class UserComponent implements OnInit {
         if (this.allOrdersList.length != 0) {
           var latestOrderDate = this.allOrdersList[this.allOrdersList.length - 1].orderDate;
           this.OrdersList = this.allOrdersList.filter(((x: { orderDate: any; }) => x.orderDate == latestOrderDate))
-          let newDate = new Date(latestOrderDate);
-          var lastOrderDate = newDate.getTime();
-          var cancellationLimit = new Date(lastOrderDate + 20 * 60000);
+          /*let newDate = new Date(latestOrderDate);
+          var lastOrderDate = newDate.getTime();*/
+          var lastOrderDate =  new Date(latestOrderDate);
+          var cancellationLimit = new Date();
+          cancellationLimit.setMinutes(lastOrderDate.getMinutes() + 20);
+          //var cancellationLimit = new Date(lastOrderDate + 20 * 60000);
           var currentDate = new Date();
           var currenttime = new Date(currentDate.getTime())
           let signoutTime = new Date(this.lastSignoutTime);
+          let signoutLimit = new Date();
+          signoutLimit.setMinutes(signoutTime.getMinutes() + 20);
           this.canceltimer = localStorage.getItem(loginData.userName) == null ? 1200 : JSON.parse(localStorage.getItem(loginData.userName) || '{}');
           if (currenttime < cancellationLimit) {
             setInterval(() => {
               if (this.canceltimer > 0) {
-                this.isCancellation = true
+                this.isCancellation = true;
+                if(signoutLimit<currenttime){
+                  this.signoutFlag = false;
+                }
                 if(this.signoutFlag){
                   var signOutValue = signoutTime.getTime();
                   var difference = currentDate.getTime() - signOutValue;
@@ -279,12 +290,14 @@ export class UserComponent implements OnInit {
               } else {
                 this.isCancellation = false;
                 this.canceltimer = 0;
+                localStorage.removeItem(loginData.userName);
               }
             }, 1000)
           }
           else {
             this.isCancellation = false;
             this.canceltimer = 0;
+            localStorage.removeItem(loginData.userName)
           }
         }
       })
@@ -362,7 +375,7 @@ export class UserComponent implements OnInit {
           localStorage.removeItem('login');
           this.loginUser = true;
           this.router.navigate(['/home']);
-          this.signoutFlag = true;
+          localStorage.setItem('signOutFlag',JSON.stringify(true));
         }
         else{
           this.openSnackBar('Trouble in Signing out')

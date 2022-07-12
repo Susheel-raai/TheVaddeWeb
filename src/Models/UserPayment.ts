@@ -12,5 +12,7 @@ export class UserPayment{
     expiryDate!:Date;
     cvv!:number;
     orderDate!:Date;
-    cardType!:string
+    cardType!:string;
+    address!:string;
+    postcode!: string;
 }

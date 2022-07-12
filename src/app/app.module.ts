@@ -17,7 +17,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import {SideMenuModule} from './side-menu/side-menu.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { TextMaskModule } from 'angular2-text-mask';
+
 
 
 @NgModule({
@@ -42,8 +42,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     MatExpansionModule,
     MatCardModule,
     MatTooltipModule,
-    RatingModule,
-    TextMaskModule
+    RatingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

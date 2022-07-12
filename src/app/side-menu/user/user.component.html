@@ -32,7 +32,7 @@
           <button class="btn btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
         </div>
         <div class="col-md-4" style="align-self: end;">
-          <a style="color:#1A6F76;" (click)="getRegistrationForm()">Register New-user</a>
+          <button type="button" class="btn btn-link" style="border:white;" (click)="getRegistrationForm()">Register New-user</button>
         </div>
       </form>
       <br><br>
@@ -103,7 +103,7 @@
           <button class="btn btn-success" type="submit" [disabled]="!registerForm.valid">Register</button>
         </div>
         <div class="col-md-4" style="align-self: end;">
-          <a style="color:#1A6F76;" (click)="cancel()">Cancel</a>
+          <button type="button" class="btn btn-link" style="color:#1A6F76;" (click)="cancel()">Cancel</button>
         </div>
       </form>
       <div *ngIf="loginsuccess">

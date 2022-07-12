@@ -12,24 +12,17 @@ export class SideMenuComponent implements OnInit {
 
   panelOpenState = false;
   itemFilter!: string;
-  //filterItemTypes!:string;
+  ItemCount:any;
   constructor(private router: Router, private sharedservice: SharedService) { }
 
   ngOnInit(): void {
+    debugger;
+    this.ItemCount = localStorage.getItem('SelectedfoodItem')==null? 0 : JSON.parse(localStorage.getItem('SelectedfoodItem')||'{}');
+    this.ItemCount = this.ItemCount.filter((x: { itemQty: number; }) => x.itemQty != 0);
+    this.ItemCount = this.ItemCount.length;
   }
 
-  /*onFilterFoodItems(value:string){
-   
-    localStorage.setItem('filterItem',value);
-    let filterItemObj = new FilterfoodComponent(this.router, this.sharedservice);
-    this.router.navigate(['/menu']);
-    if(this.router.url=='/menu'){
-      filterItemObj.reloadCurrentRoute();
-    }
-  }*/
-
   modelChangeFn(value: any) {
-   
     this.itemFilter = value;
     this.sharedservice.setFilter(this.itemFilter);
   }
